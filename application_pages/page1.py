@@ -7,12 +7,12 @@ from application_pages.utils import generate_synthetic_safety_data, SIMULATION_D
 
 def run_page1():
     st.title("AI Security Vulnerability Simulation Lab")
-    st.markdown("""
+    st.markdown(r"""
     This lab provides hands-on experience in identifying, understanding, and analyzing AI-security vulnerabilities within agentic AI systems used for industrial safety monitoring. Participants will gain practical insights into how various attack vectors, such as prompt injection and data poisoning, can impact system performance and security. The lab covers key concepts like 'synthetic-identity risk' and 'untraceable data leakage' by visualizing their effects on simulated security metrics.
     """)
 
     st.header("Learning Goals")
-    st.markdown("""
+    st.markdown(r"""
     Upon completion of this lab, users will be able to:
     -   **Understand the key insights** presented in the provided resource documents and simulated data regarding AI security.
     -   **Identify common AI-security vulnerabilities**, such as 'synthetic-identity risk' and 'untraceable data leakage,' and comprehend their potential impact.
@@ -23,7 +23,7 @@ def run_page1():
     """)
 
     st.header("Data/Inputs Overview")
-    st.markdown("""
+    st.markdown(r"""
     This lab operates on a synthetically generated dataset that simulates an industrial safety monitoring environment. This approach allows for a controlled study of AI security vulnerabilities without relying on sensitive real-world data. The synthetic data includes:
     -   **Sensor Readings**: Time-series data from various industrial sensors.
     -   **Agent Communication Logs**: Records of messages exchanged between AI agents.
@@ -41,7 +41,7 @@ def run_page1():
     """)
 
     st.subheader("Generating Baseline Data")
-    st.markdown("""
+    st.markdown(r"""
     We start by generating a synthetic baseline dataset that represents the normal, secure operation of an industrial safety monitoring system. This data includes sensor readings, agent communication logs, and initial security metrics, which will serve as a reference point to observe the impact of simulated attacks.
     """)
 
@@ -66,6 +66,6 @@ def run_page1():
     st.markdown("#### Security Metrics Baseline")
     st.dataframe(st.session_state['security_metrics_baseline'].head())
 
-    st.markdown("""
+    st.markdown(r"""
     Navigate to "Page 2: Simulation Configuration & Validation" in the sidebar to configure attack parameters and validate the generated data.
     """)

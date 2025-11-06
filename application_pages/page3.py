@@ -7,7 +7,7 @@ def run_page3():
     st.title("Vulnerability Simulation & Analysis")
 
     st.header("Simulation Results")
-    st.markdown("""
+    st.markdown(r"""
     This section presents the results of the AI security vulnerability simulation based on the parameters you configured. We will visualize how different attack types and intensities impact key security metrics, providing insights into the system's resilience and vulnerabilities.
     """)
 
@@ -53,7 +53,7 @@ def run_page3():
             st.dataframe(st.session_state['attack_events_df'].head())
 
             st.header("Visualizations")
-            st.markdown("""
+            st.markdown(r"""
             The following visualizations illustrate the impact of the simulated AI security vulnerability on key system metrics. Observe the differences between the baseline (normal operation) and the attacked scenarios.
             """)
 
@@ -78,7 +78,7 @@ def run_page3():
         st.warning("Please navigate to 'Page 1: Overview & Data Generation' and 'Page 2: Simulation Configuration & Validation' first to generate data and configure parameters.")
 
     st.header("Discussion & Conclusion")
-    st.markdown("""
+    st.markdown(r"""
     The simulation results clearly demonstrate how various AI security vulnerabilities, such as prompt injection and data poisoning, can significantly impact the performance and reliability of agentic AI systems for industrial safety monitoring. We observed changes in alert frequencies, detection latencies, and agent integrity scores, all of which are critical indicators of system health and security.
 
     Key takeaways from this lab:
@@ -91,7 +91,7 @@ def run_page3():
     """)
 
     st.header("References")
-    st.markdown("""
+    st.markdown(r"""
     1.  **[1] Case 3: Agentic AI for Safety Monitoring, Provided Resource Document.** This document describes AI-security vulnerabilities like 'synthetic-identity risk' and 'untraceable data leakage', and the importance of rigorous testing and risk controls.
     2.  **[2] Unit 6: Testing, Validation and AI Security, Adversarial Testing and Red-Teaming, Provided Resource Document.** This section explores threats like prompt injection and data poisoning, and discusses the impact of malicious samples on LLM output.
     3.  **Pandas Library**: A fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language. (https://pandas.pydata.org/)

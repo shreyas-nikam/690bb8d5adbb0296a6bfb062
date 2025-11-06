@@ -7,7 +7,7 @@ def run_page2():
     st.title("Simulation Configuration & Data Validation")
 
     st.header("Methodology Overview")
-    st.markdown("""
+    st.markdown(r"""
     Our approach in this lab is to simulate an agentic AI system under various security attack scenarios. This involves several key steps:
     1.  **Synthetic Data Generation**: Create a baseline dataset representing normal operations of an industrial safety monitoring system.
     2.  **Interactive Parameter Definition**: Allow users to define key attack parameters such as type and intensity, providing a dynamic simulation environment.
@@ -121,6 +121,6 @@ def run_page2():
     else:
         st.warning("Baseline data not found. Please navigate to 'Page 1: Overview & Data Generation' first.")
 
-    st.markdown("""
+    st.markdown(r"""
     Once you have configured the simulation parameters and reviewed the data validation, navigate to "Page 3: Vulnerability Simulation & Analysis" to observe the attack's impact.
     """)
