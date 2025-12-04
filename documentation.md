@@ -3,720 +3,350 @@ summary: AI Security Vulnerability Simulation Lab Documentation
 feedback link: https://docs.google.com/forms/d/e/1FAIpQLSfWkOK-in_bMMoHSZfcIvAeO58PAH9wrDqcxnJABHaxiDqhSA/viewform?usp=sf_link
 environments: Web
 status: Published
-# AI Security Vulnerability Simulation Lab: A Comprehensive Codelab
+# AI Security Vulnerability Simulation Lab with Streamlit
 
-## 1. Introduction and Application Overview
-Duration: 0:05:00
+## Step 1: Introduction to the AI Security Simulation Lab
+Duration: 00:05
 
-Welcome to the **AI Security Vulnerability Simulation Lab** codelab! This guide will walk you through a Streamlit application designed to provide hands-on experience in understanding, identifying, and analyzing AI-security vulnerabilities within agentic AI systems. Specifically, it focuses on systems used for industrial safety monitoring.
-
-### Importance of the Application
-In today's rapidly evolving technological landscape, AI systems are increasingly deployed in critical domains like industrial safety. Ensuring the security and reliability of these systems is paramount. This lab addresses this need by offering a simulated environment where developers and security professionals can:
-*   **Identify common AI-security vulnerabilities:** Explore threats like 'synthetic-identity risk' (compromised agents acting maliciously) and 'untraceable data leakage' (covert data exfiltration).
-*   **Learn adversarial testing techniques:** Understand how prompt injection and data poisoning attacks can manipulate AI behavior.
-*   **Analyze defense strategies:** Evaluate the effectiveness of various risk controls in mitigating AI security threats.
-
-This hands-on approach helps bridge the gap between theoretical knowledge and practical application, fostering a deeper understanding of AI security challenges and solutions.
-
-### Learning Outcomes
-Upon completing this codelab, you will be able to:
-*   Understand the core components and flow of the AI Security Vulnerability Simulation Lab.
-*   Identify and categorize different AI-security vulnerabilities.
-*   Grasp the mathematical foundations used to quantify attack impacts.
-*   Implement and analyze simulated attacks and their effects on system metrics.
-*   Interpret visualizations that highlight the consequences of AI vulnerabilities.
-*   Discuss the implications of these findings for building resilient AI systems.
-
-### Scope and Constraints
-This lab is designed for efficiency and accessibility:
-*   It runs end-to-end on a mid-spec laptop (8 GB RAM) in under 5 minutes for the simulation parts.
-*   It exclusively uses open-source Python libraries from PyPI.
-*   All major steps include detailed code comments and brief narrative explanations of 'what' is happening and 'why'.
-
-### Application Architecture
-The application is structured as a multi-page Streamlit application, where `app.py` acts as the orchestrator, dynamically loading different modules from the `application_pages` directory based on user navigation. This modular design enhances maintainability and readability.
-
-```mermaid
-graph TD
-    A[app.py - Main Streamlit Application] --> B{Streamlit Sidebar Navigation}
-    B -- Select Overview --> C[application_pages/overview.py]
-    B -- Select Setup --> D[application_pages/setup.py]
-    B -- Select Configuration --> E[application_pages/configuration.py]
-    B -- Select Mathematical Foundations --> F[application_pages/mathematical_foundations.py]
-    B -- Select Synthetic Data Generation --> G[application_pages/synthetic_data.py]
-    B -- Select Data Validation --> H[application_pages/data_validation.py]
-    B -- Select Vulnerability Simulation --> I[application_pages/vulnerability_simulation.py]
-    B -- Select Visualizations --> J[application_pages/visualizations.py]
-    B -- Select Discussion --> K[application_pages/discussion.py]
-    B -- Select Conclusion --> L[application_pages/conclusion.py]
-    B -- Select References --> M[application_pages/references.py]
-```
+Welcome to the AI Security Vulnerability Simulation Lab! In today's rapidly evolving technological landscape, Artificial Intelligence (AI) systems are becoming increasingly ubiquitous, driving innovation across various sectors. However, with their growing adoption comes the critical need to understand and mitigate their unique security vulnerabilities.
 
 <aside class="positive">
-<b>Key Takeaway:</b> The modular design with Streamlit's multi-page capabilities allows for a clear separation of concerns, making the application easy to navigate and understand.
+This lab provides a hands-on experience to understand **AI security vulnerabilities** through interactive simulations and visualizations. It's designed to give developers insights into common attack vectors, such as **synthetic-identity risk**, and demonstrate the importance of effective risk controls.
 </aside>
 
-## 2. Setting Up the Environment and Library Imports
-Duration: 0:02:00
+**Why is AI Security Important?**
+AI systems can be susceptible to various attacks, including data poisoning, model evasion, and adversarial attacks, which can lead to biased decisions, privacy breaches, and even system failures. Understanding these risks is crucial for building robust, secure, and trustworthy AI applications.
 
-Before diving into the simulation, it's essential to ensure all necessary Python libraries are installed and imported. This step (`application_pages/setup.py`) prepares the environment by making all required functionalities for data generation, manipulation, simulation, and visualization available.
+This Streamlit application serves as a foundational platform to:
+*   **Explore AI security concepts:** Get acquainted with the types of vulnerabilities that AI systems face.
+*   **Simulate attacks:** Observe the impact of different attack types and intensities on AI system metrics.
+*   **Visualize outcomes:** Understand the effects of attacks through clear, interactive plots.
 
-### Code Overview (`application_pages/setup.py`)
-This page is primarily informative within the Streamlit application, confirming that the setup steps (which would typically involve `pip install` commands in a real-world scenario) are conceptually complete.
+The application is structured into two main sections:
+1.  **Overview:** Introduces the lab and its core objectives.
+2.  **Simulation:** Allows users to run simulated attacks and visualize their impact.
+
+### Application Architecture Overview
+The application uses Streamlit's multi-page capability to manage different sections. The `app.py` file acts as the main entry point, handling global configurations and navigation, while individual pages (`page_1.py`, `page_2.py`) contain the specific logic and UI for their respective sections.
+
+<pre><code>
+                               +--+
+                               |         app.py              |
+                               | (Main Streamlit Entrypoint) |
+                               +-++
+                                     |
+                                     | Configures page, sidebar, navigation
+                                     v
+                  +-+
+                  |  Sidebar Navigation (st.sidebar.selectbox)   |
+                  +-+
+                         |                       |
+                         |  Selects "Overview"   |  Selects "Simulation"
+                         v                       v
+            ++     +--+
+            | application_pages/  |     | application_pages/       |
+            | page_1.py           |     | page_2.py                |
+            | (Overview Page)     |     | (Simulation Page)        |
+            ++     +--+
+                      |                                |
+                      v                                v
+            Displays introduction       Generates synthetic data, simulates
+            and high-level context      attacks, plots impact, displays visualizations
+</code></pre>
+
+This modular structure makes the application easy to extend and maintain, allowing developers to add new simulation scenarios or overview content without significant refactoring.
+
+## Step 2: Setting Up Your Development Environment
+Duration: 00:05
+
+Before you can run the AI Security Vulnerability Simulation Lab, you need to set up your development environment.
+
+### Prerequisites
+*   **Python 3.7+:** Ensure you have a recent version of Python installed.
+*   **pip:** Python's package installer, which usually comes with Python.
+
+### Installation Steps
+
+1.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Linux/macOS
+    # venv\Scripts\activate   # On Windows
+    ```
+
+2.  **Install the required Python packages:**
+    The application primarily uses `streamlit`, `pandas`, `matplotlib`, and `seaborn`.
+    ```bash
+    pip install streamlit pandas matplotlib seaborn numpy
+    ```
+    We also include `numpy` as it's often used with `pandas` and for numerical operations in simulation.
+
+3.  **Create the application files:**
+    You'll need to create the following file structure:
+    ```
+    .
+    ├── app.py
+    └── application_pages/
+        ├── page_1.py
+        └── page_2.py
+    ```
+    Copy the code provided in the subsequent steps into their respective files.
+
+## Step 3: Understanding the Main Application Entry Point (`app.py`)
+Duration: 00:10
+
+The `app.py` file is the heart of your Streamlit application. It sets up the global page configuration, displays the main title and branding, and manages navigation between different parts of the lab.
+
+Copy the following code into your `app.py` file:
 
 ```python
 import streamlit as st
 
-# Setup Page
+# Configure the Streamlit page
+st.set_page_config(page_title='QuLab', layout='wide')
 
-def main():
-    st.markdown("""
-    ## Section 2: Setup and Library Imports
-    First, we import all necessary Python libraries. This ensures that all required functionalities for data generation, manipulation, simulation, and visualization are available.
-    The required libraries have been successfully loaded. We are now ready to define the parameters for our simulation and proceed with data generation and analysis.
-    """)
+# Display a logo in the sidebar
+st.sidebar.image('https://www.quantuniversity.com/assets/img/logo5.jpg')
+st.sidebar.divider()
+
+# Main title for the application
+st.title('QuLab')
+st.divider()
+
+st.markdown("""
+In this lab, explore AI security vulnerabilities through interactive simulations and visualizations.
+""")
+
+# Sidebar navigation for switching between pages
+page = st.sidebar.selectbox('Navigation', ['Overview', 'Simulation'])
+
+# Conditional rendering based on sidebar selection
+if page == 'Overview':
+    from application_pages.page_1 import main
+    main()
+elif page == 'Simulation':
+    from application_pages.page_2 import main
+    main()
 ```
 
-### Required Libraries
-While not explicitly coded in `setup.py`, the application implicitly relies on several fundamental Python libraries. These would typically be listed in a `requirements.txt` file.
+### Code Explanation:
+*   `st.set_page_config(page_title='QuLab', layout='wide')`: This line configures the browser tab title and sets the page layout to `wide`, allowing for more content to be displayed horizontally.
+*   `st.sidebar.image(...)` and `st.sidebar.divider()`: These add branding (a logo) and visual separation to the sidebar.
+*   `st.title('QuLab')` and `st.markdown(...)`: These display the main application title and a brief introductory text on the main content area.
+*   `st.sidebar.selectbox('Navigation', ['Overview', 'Simulation'])`: This is the key component for navigation. It creates a dropdown menu in the sidebar, allowing users to switch between the "Overview" and "Simulation" pages.
+*   `if page == 'Overview': ... elif page == 'Simulation': ...`: This block dynamically imports and calls the `main()` function from the selected page's module. This is Streamlit's common pattern for implementing multi-page applications.
 
-```console
-# Example requirements.txt
-streamlit
-pandas
-numpy
-matplotlib
-```
+## Step 4: Deep Dive into the Overview Page (`application_pages/page_1.py`)
+Duration: 00:05
 
-To install these, you would typically run:
-```bash
-pip install -r requirements.txt
-```
+The `application_pages/page_1.py` file contains the content for the "Overview" section of the lab. Its primary purpose is to introduce the user to the lab's objectives and the concepts they will explore.
 
-<aside class="positive">
-<b>Best Practice:</b> Always manage your project dependencies using a `requirements.txt` file or similar package manager configuration to ensure reproducibility.
-</aside>
-
-## 3. Defining Configuration Parameters
-Duration: 0:03:00
-
-This section (`application_pages/configuration.py`) is crucial for interactive exploration. It allows users to define the parameters that control the characteristics of the synthetic data and the nature of the simulated attack. These parameters directly influence the simulation's outcomes, allowing you to experiment with different scenarios.
-
-### Key Simulation Parameters
-*   **Attack Intensity ($$A_{intensity}$$):** This parameter controls the severity of the attack, ranging from $0.0$ (no attack) to $1.0$ (maximum intensity). A higher value indicates a more potent or widespread attack.
-*   **Attack Type:** This determines the specific type of vulnerability being simulated (e.g., Prompt Injection, Data Poisoning). Different attack types have distinct impacts on system metrics.
-*   **Number of Compromised Agents ($$N_{agents}$$):** This specifies how many of the simulated AI agents are affected by the attack.
-
-The Streamlit application maintains these parameters in `st.session_state`, ensuring they persist across different pages of the application.
-
-### Code Overview (`application_pages/configuration.py`)
-This page displays the currently selected simulation parameters. In a fully interactive version, these values would be set via Streamlit widgets like sliders and select boxes, then stored in `st.session_state`.
+Create a folder named `application_pages` in the same directory as `app.py`. Then, create `page_1.py` inside the `application_pages` folder and copy the following code into it:
 
 ```python
 import streamlit as st
 
-# Configuration Page
-
 def main():
-    st.markdown("""
-    ## Section 3: Define Configuration Parameters (User Interaction)
+    st.title('AI Security Vulnerability Simulation Lab - Overview')
+    st.markdown('''\n    ## Introduction\n    Explore AI security vulnerabilities through interactive simulation. \n    Understand common vulnerabilities like 'synthetic-identity risk' and learn about effective risk controls.\n    ''')
+
+if __name__ == '__main__':
+    main()
+```
+
+### Code Explanation:
+*   `def main():`: This function encapsulates the Streamlit components for this page. It's called by `app.py` when the "Overview" option is selected.
+*   `st.title(...)`: Displays a specific title for the overview page.
+*   `st.markdown(...)`: Renders the introductory text about AI security vulnerabilities, interactive simulation, `synthetic-identity risk`, and risk controls using Markdown formatting.
+
+<aside class="positive">
+Using `st.markdown` with triple quotes `'''...'''` allows you to write multi-line markdown content, including headers (`## Introduction`), making it easy to format rich text.
+</aside>
+
+## Step 5: Exploring the Simulation Page (`application_pages/page_2.py`)
+Duration: 00:20
+
+The `application_pages/page_2.py` file is where the core simulation logic and visualization reside. This page allows users to simulate the impact of various attack types on a hypothetical AI system and visualize the changes over time.
+
+**Important Note:** The original provided `page_2.py` relied on two undefined functions: `generate_synthetic_safety_data` and `simulate_vulnerability_impact`. For this codelab to be executable and comprehensive, we will provide placeholder implementations for these functions. These placeholders will mimic the expected behavior, allowing the plotting function to work correctly. In a real-world scenario, these would contain complex logic based on actual data models and attack simulations.
+
+Create `page_2.py` inside the `application_pages` folder and copy the following code into it:
+
+```python
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import datetime
+
+#  Placeholder Functions for Simulation 
+# In a real application, these would contain complex data generation and attack logic.
+
+def generate_synthetic_safety_data(num_points, base_alert_rate, max_base_variation, random_seed):
+    """
+    Generates synthetic baseline safety data (e.g., alert frequencies).
+    """
+    np.random.seed(random_seed)
+    timestamps = [datetime.datetime.now() - datetime.timedelta(minutes=i) for i in range(num_points)][::-1]
+    # Simulate a baseline alert count with some natural variation
+    alerts = np.random.normal(loc=base_alert_rate, scale=max_base_variation, size=num_points)
+    alerts = np.maximum(0, alerts).astype(int) # Ensure non-negative integer alert counts
+    df = pd.DataFrame({'timestamp': timestamps, 'alert_count': alerts})
+    return df
+
+def simulate_vulnerability_impact(base_df, attack_type, attack_intensity, impact_factor, config):
+    """
+    Simulates the impact of a vulnerability on the baseline data.
+    For this placeholder, it simply increases alert counts based on intensity.
+    """
+    attacked_df = base_df.copy()
+    # A simple simulation: increase alert count based on intensity and a fixed impact factor
+    # In a real scenario, 'attack_type' would dictate a more complex modification
+    attacked_df['alert_count'] = attacked_df['alert_count'] + \
+                                 (attacked_df['alert_count'] * attack_intensity * impact_factor).astype(int)
+    attacked_df['alert_count'] = np.maximum(0, attacked_df['alert_count']) # Ensure non-negative alerts
     
-    This section allows users to interactively set the parameters for the AI security vulnerability simulation. These parameters control the characteristics of the synthetic data and the nature of the simulated attack. Inline help text is provided for each control.
+    # In a full simulation, attack_events would detail when/how attacks occurred
+    attack_events = {} 
+    return attacked_df, attack_events
 
-    **Key parameters are:**
-    - **Attack Intensity ($$A_{intensity}$$):** Controls the severity of the attack, ranging from $$0.0$$ (no attack) to $$1.0$$ (maximum intensity).
-    - **Attack Type:** Determines the specific type of vulnerability being simulated (e.g., Prompt Injection, Data Poisoning).
-    - **Number of Compromised Agents ($$N_{agents}$$): Specifies how many of the simulated agents are affected by the attack.
-    """)
+#  Visualization Function 
 
-    st.write("")
-    st.markdown("### Current Simulation Parameters")
-    # These values would typically be updated via Streamlit widgets and stored in st.session_state
-    # For this codelab, we assume they are already set or have default values.
-    st.write(f"**Selected Attack Intensity:** {st.session_state.selected_attack_intensity}")
-    st.write(f"**Selected Attack Type:** {st.session_state.selected_attack_type}")
-    st.write(f"**Selected Number of Compromised Agents:** {st.session_state.selected_num_compromised_agents}")
-    st.write(f"**Simulation Duration (Hours):** 2")
-    st.write(f"**Number of Agents:** 10")
-    st.write(f"**Base Alert Rate (Per Hour):** 5")
-    st.write(f"**Anomaly Rate Multiplier:** 2.5")
-    st.write(f"**Random Seed:** 42")
-    st.write("")
+@st.cache_data
+def plot_alert_frequency_trend(base_df, attacked_df, attack_type, attack_intensity, font_size):
+    """
+    Plots the trend of alert frequency for both baseline and attacked scenarios.
+    Uses st.cache_data for performance optimization.
+    """
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Plot baseline data
+    sns.lineplot(x='timestamp', y='alert_count', data=base_df, ax=ax, label='Baseline', marker='o')
+    
+    # Plot attacked data
+    sns.lineplot(x='timestamp', y='alert_count', data=attacked_df, ax=ax, 
+                 label=f'Attacked ({attack_type} - {attack_intensity*100:.0f}%)', 
+                 linestyle='dashed', marker='x')
+    
+    ax.set_title('Alert Frequency Over Time', fontsize=font_size)
+    ax.set_xlabel('Timestamp', fontsize=font_size*0.8)
+    ax.set_ylabel('Alert Count', fontsize=font_size*0.8)
+    ax.tick_params(axis='both', which='major', labelsize=font_size*0.7)
+    ax.legend(fontsize=font_size*0.8)
+    plt.xticks(rotation=45, ha='right') # Rotate x-axis labels for better readability
+    plt.tight_layout() # Adjust layout to prevent labels from overlapping
+    return fig
+
+
+def main():
+    st.title('AI Security Vulnerability Simulation Lab - Simulation')
+    st.markdown('''\n    Simulate various attack types and intensities and visualize their impact on system metrics.\n    ''')
+
+    # Example synthetic data generation and attack simulation
+    # Parameters for synthetic data: num_points, base_alert_rate, max_base_variation, random_seed
+    sensor_data_baseline = generate_synthetic_safety_data(num_points=50, 
+                                                        base_alert_rate=10, 
+                                                        max_base_variation=3, 
+                                                        random_seed=42)
+
+    # Parameters for attack simulation: base_df, attack_type, attack_intensity, impact_factor, config
+    security_metrics_attacked, attack_events = simulate_vulnerability_impact(
+        sensor_data_baseline, 'Data Poisoning', 0.5, 5, {} # 0.5 intensity, impact factor 5
+    )
+
+    st.subheader('Trend Plot: Simulated Alert Frequency')
+    # Plot the trend
+    fig_trend = plot_alert_frequency_trend(sensor_data_baseline, security_metrics_attacked, 'Data Poisoning', 0.5, 14)
+    st.pyplot(fig_trend)
+
+    st.markdown('''
+    Above, you can observe how an attack (e.g., 'Data Poisoning') at a certain intensity affects the 'Alert Count' over time compared to a baseline scenario. The dashed line represents the system under attack.
+    ''')
+    
+    # Display raw data for inspection (optional)
+    st.subheader('Raw Simulated Data (Baseline vs. Attacked)')
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("Baseline Data")
+        st.dataframe(sensor_data_baseline)
+    with col2:
+        st.write("Attacked Data")
+        st.dataframe(security_metrics_attacked)
+
+
+if __name__ == '__main__':
+    main()
 ```
+
+### Code Explanation:
+
+#### Placeholder Functions (`generate_synthetic_safety_data`, `simulate_vulnerability_impact`)
+*   These functions are crucial for generating the data needed for plotting.
+*   `generate_synthetic_safety_data`: Creates a `pandas.DataFrame` with `timestamp` and `alert_count` columns, simulating normal system behavior. It uses `numpy` for random data generation.
+*   `simulate_vulnerability_impact`: Takes the `base_df` and modifies it based on `attack_type` and `attack_intensity`. Our placeholder simply increases the `alert_count` to demonstrate an impact. In a real-world application, this would involve more sophisticated modeling of how specific attacks (e.g., data poisoning, adversarial examples) affect system metrics.
+
+#### Visualization Function (`plot_alert_frequency_trend`)
+*   `@st.cache_data`: This is a Streamlit caching decorator. It tells Streamlit to run the function only once if its inputs haven't changed. This is extremely useful for performance, especially with resource-intensive operations like plotting or data loading, as it prevents re-running the function every time the Streamlit app re-renders.
+*   The function uses `matplotlib.pyplot` and `seaborn` to create a line plot comparing the `base_df` (baseline data) and `attacked_df` (data after simulation of an attack).
+*   `sns.lineplot(...)`: Used for drawing line plots with statistical estimation. Here, it plots `alert_count` against `timestamp`.
+*   `fig, ax = plt.subplots(...)`: Creates a Matplotlib figure and a set of subplots.
+*   `ax.set_title()`, `ax.set_xlabel()`, `ax.set_ylabel()`, `ax.legend()`, `plt.xticks(rotation=45)`: Standard Matplotlib commands for customizing plot appearance, labels, and legends for better readability.
+*   `plt.tight_layout()`: Automatically adjusts subplot parameters for a tight layout.
+
+#### `main()` Function
+*   `st.title(...)` and `st.markdown(...)`: Provide the page title and description.
+*   **Data Generation & Simulation:**
+    *   `sensor_data_baseline = generate_synthetic_safety_data(...)`: Calls the placeholder function to get initial data.
+    *   `security_metrics_attacked, attack_events = simulate_vulnerability_impact(...)`: Calls the placeholder to generate attacked data. Here, we hardcode `Data Poisoning` as the attack type and `0.5` as intensity for demonstration.
+*   `st.subheader('Trend Plot')` and `st.pyplot(fig_trend)`: Displays a subheader and then renders the `matplotlib` figure generated by `plot_alert_frequency_trend` in the Streamlit application.
+*   `st.columns(2)` and `st.dataframe(...)`: Optionally displays the raw baseline and attacked data in two columns, which can be helpful for debugging or detailed inspection.
 
 <aside class="negative">
-<b>Important:</b> The code snippet above assumes `st.session_state` variables like `selected_attack_intensity` are already initialized. In a complete Streamlit app, you would add logic to set default values or user inputs on the `app.py` or a dedicated configuration page before these values are displayed.
+The placeholder functions `generate_synthetic_safety_data` and `simulate_vulnerability_impact` are simplified. For a real-world AI security lab, these would be significantly more complex, involving detailed models of AI system behavior, different attack methodologies, and more realistic data generation techniques. Developers should extend these functions to incorporate specific vulnerabilities and AI models they wish to study.
 </aside>
 
-## 4. Mathematical Foundations of Attack Simulation
-Duration: 0:04:00
+## Step 6: Running the Application and Experimentation
+Duration: 00:05
 
-To provide a concrete and quantifiable simulation, this section (`application_pages/mathematical_foundations.py`) defines the mathematical models that govern how different AI security vulnerabilities impact key system metrics. These equations ensure that the simulated effects are consistent, measurable, and directly tied to the chosen attack parameters.
+Now that all the files are in place, you can run the Streamlit application and start exploring the AI Security Vulnerability Simulation Lab!
 
-### Core Simulation Flowchart
-The mathematical models are applied during the "Simulate Vulnerability Impact" phase of the overall simulation process.
+### Running the Application
 
-```mermaid
-graph TD
-    A[Start] --> B(User Configures Parameters)
-    B --> C{Generate Synthetic Data}
-    C --> D{Validate Data}
-    D --> E{Simulate Vulnerability Impact}
-    E --> F{Visualize Results}
-    F --> G(Analyze & Discuss Outcomes)
-    G --> H[End]
-```
+1.  **Navigate to your project directory:** Open your terminal or command prompt and change your current directory to where your `app.py` file is located.
+    ```bash
+    cd path/to/your/project
+    ```
 
-### Key Mathematical Relationships
-#### Alert Frequency Over Time
-The alert frequency under attack, $$F_{alerts\_attacked}(t)$$, is modeled as an increase over the baseline frequency, $$F_{alerts\_base}(t)$$, proportional to the attack intensity and a type-specific coefficient:
+2.  **Run the Streamlit application:**
+    ```bash
+    streamlit run app.py
+    ```
 
-$$F_{alerts\_attacked}(t) = F_{alerts\_base}(t) \cdot (1 + A_{intensity} \cdot C_{type})$$
+3.  **Access the application:** Streamlit will automatically open a new tab in your web browser, displaying the application. If it doesn't, it will provide a local URL (e.g., `http://localhost:8501`) that you can copy and paste into your browser.
 
-Where:
-*   $$A_{intensity}$$ is the user-defined attack intensity, $$A_{intensity} \in [0, 1]$$.
-*   $$C_{type}$$ is a scaling factor specific to the `Attack Type`, reflecting its inherent impact potential (e.g., a data poisoning attack might have a higher $$C_{type}$$ than a mild prompt injection).
+### Experimentation
 
-#### Detection Latency
-The simulated detection latency, $$L_{detection}$$, represents the delay between an attack incident and its detection. It increases with attack intensity:
+Once the application is running:
 
-$$L_{detection} = L_{base} + A_{intensity} \cdot D_{type}$$
-
-Where:
-*   $$L_{base}$$ is a nominal baseline detection latency.
-*   $$D_{type}$$ is a coefficient related to the `Attack Type`, representing how challenging that specific attack is to detect quickly.
-
-#### Agent Integrity Score
-The integrity score for a compromised agent, $$I_{agent\_attacked}$$, is reduced from its baseline, $$I_{agent\_base}$$, based on attack intensity and type:
-
-$$I_{agent\_attacked} = I_{agent\_base} \cdot (1 - A_{intensity} \cdot K_{type})$$
-
-Where:
-*   $$K_{type}$$ is a coefficient for the `Attack Type`, reflecting its detrimental effect on agent trustworthiness or operational integrity. For uncompromised agents, $$I_{agent\_attacked} = I_{agent\_base}$$.
-
-### Code Overview (`application_pages/mathematical_foundations.py`)
-This page explains the formulas using Streamlit's markdown with LaTeX support.
-
-```python
-import streamlit as st
-
-# Mathematical Foundations Page
-
-def main():
-    st.markdown(r"""
-    ## Section 4: Mathematical Foundations of Attack Simulation
-    
-    To simulate the impact of AI security vulnerabilities concretely, we define mathematical relationships that govern how attacks influence key system metrics. These relationships ensure a quantifiable and consistent effect based on the chosen attack parameters.
-
-    #### Alert Frequency Over Time
-    The alert frequency under attack, $$F_{alerts\_attacked}(t)$$, is modeled as an increase over the baseline frequency, $$F_{alerts\_base}(t)$$, proportional to the attack intensity and a type-specific coefficient:
-    $$F_{alerts\_attacked}(t) = F_{alerts\_base}(t) \cdot (1 + A_{intensity} \cdot C_{type})$$
-    Where:
-    - $$A_{intensity}$$ is the user-defined attack intensity, $$A_{intensity} \in [0, 1]$$.
-    - $$C_{type}$$ is a scaling factor specific to the `Attack Type`, reflecting its inherent impact potential (e.g., a data poisoning attack might have a higher $$C_{type}$$ than a mild prompt injection).
-
-    #### Detection Latency
-    The simulated detection latency, $$L_{detection}$$, represents the delay between an attack incident and its detection. It increases with attack intensity:
-    $$L_{detection} = L_{base} + A_{intensity} \cdot D_{type}$$
-    Where:
-    - $$L_{base}$$ is a nominal baseline detection latency.
-    - $$D_{type}$$ is a coefficient related to the `Attack Type`, representing how challenging that specific attack is to detect quickly.
-
-    #### Agent Integrity Score
-    The integrity score for a compromised agent, $$I_{agent\_attacked}$$, is reduced from its baseline, $$I_{agent\_base}$$, based on attack intensity and type:
-    $$I_{agent\_attacked} = I_{agent\_base} \cdot (1 - A_{intensity} \cdot K_{type})$$
-    Where:
-    - $$K_{type}$$ is a coefficient for the `Attack Type`, reflecting its detrimental effect on agent trustworthiness or operational integrity. For uncompromised agents, $$I_{agent\_attacked} = I_{agent\_base}$$.
-
-    These formulae provide a structured way to quantify the effects of 'synthetic-identity risk' and 'data poisoning' on system metrics, making the simulation robust and interpretable.
-    """)
-```
-
-<aside class="positive">
-<b>Concept Explained:</b> These mathematical models allow for a rigorous, quantitative analysis of AI security vulnerabilities, moving beyond qualitative descriptions to provide measurable impacts. This is crucial for evaluating risk and the effectiveness of countermeasures.
-</aside>
-
-## 5. Synthetic Data Generation
-Duration: 0:05:00
-
-To create a controlled and reproducible environment for studying AI security, the lab generates a synthetic dataset (`application_pages/synthetic_data.py`). This dataset mimics sensor readings from industrial equipment, communication logs from AI agents, and baseline security metrics. It includes realistic numeric, categorical, and time-series data, sufficient for demonstrating the lab's concepts without relying on external data sources.
-
-The use of synthetic data ensures:
-*   **Privacy:** No real-world sensitive data is involved.
-*   **Reproducibility:** The same data can be generated consistently using a fixed random seed.
-*   **Scalability:** Data size and complexity can be controlled for efficient execution on various hardware.
-
-### Code Overview (`application_pages/synthetic_data.py`)
-This section contains a placeholder for the `generate_synthetic_safety_data` function. In a complete implementation, this function would create Pandas DataFrames representing different aspects of the industrial safety system (e.g., sensor data, agent logs, security metrics).
-
-```python
-import streamlit as st
-import pandas as pd
-import numpy as np
-
-# Synthetic Data Generation Page
-
-def main():
-    st.markdown("""
-    ## Section 5: Synthetic Data Generation - Core Function Implementation
-    
-    To provide a controlled environment for studying AI security, we first generate a synthetic dataset. This dataset simulates sensor readings from industrial equipment, communication logs from AI agents, and baseline security metrics. It includes realistic numeric, categorical, and time-series data, sufficient for demonstrating the lab's concepts without needing external data. A lightweight sample is ensured for quick execution.
-    """)
-    
-    # Synthetic Data Generation Function
-    def generate_synthetic_safety_data(num_agents, simulation_duration_hours, base_alert_rate, anomaly_rate_multiplier, random_seed):
-        # your implementation
-        
-        # Placeholder for actual data generation
-        # In a real scenario, this would generate data using numpy and pandas
-        # Example for sensor_data:
-        time_stamps = pd.to_datetime(pd.date_range(start="2023-01-01", periods=simulation_duration_hours*60, freq="min"))
-        sensor_data = pd.DataFrame({
-            'timestamp': time_stamps,
-            'equipment_id': np.random.randint(1, num_agents + 1, size=len(time_stamps)),
-            'temperature': np.random.normal(70, 5, len(time_stamps)),
-            'pressure': np.random.normal(100, 10, len(time_stamps)),
-            'vibration': np.random.normal(5, 1, len(time_stamps))
-        })
-        
-        # Example for agent_logs:
-        agent_logs = pd.DataFrame({
-            'timestamp': time_stamps[::10], # Less frequent logs
-            'agent_id': np.random.randint(1, num_agents + 1, size=len(time_stamps)//10),
-            'log_message': [f"Agent {aid} processed data." for aid in np.random.randint(1, num_agents + 1, size=len(time_stamps)//10)],
-            'status': np.random.choice(['INFO', 'WARNING'], size=len(time_stamps)//10)
-        })
-
-        # Example for security_metrics:
-        security_metrics = pd.DataFrame({
-            'timestamp': time_stamps,
-            'alert_rate': np.random.poisson(base_alert_rate, size=len(time_stamps)),
-            'agent_integrity_score': np.random.uniform(0.8, 1.0, size=len(time_stamps)),
-            'detection_latency': np.random.uniform(0.5, 2.0, size=len(time_stamps))
-        })
-        
-        # Placeholder for configuration dictionary
-        simulation_config = {
-            "num_agents": num_agents,
-            "simulation_duration_hours": simulation_duration_hours,
-            "base_alert_rate": base_alert_rate,
-            "anomaly_rate_multiplier": anomaly_rate_multiplier,
-            "random_seed": random_seed
-        }
-
-        return sensor_data, agent_logs, security_metrics, simulation_config
-    
-    # Display Head of DataFrames - Placeholder
-    st.subheader("Synthetic Data (Baseline)")
-    
-    # Calling the placeholder function with example parameters
-    # In a real app, these would come from st.session_state
-    num_agents = 10
-    simulation_duration_hours = 2
-    base_alert_rate = 5
-    anomaly_rate_multiplier = 2.5
-    random_seed = 42
-    
-    # Initialize session state if not already done (for demonstration)
-    if 'sensor_data_base' not in st.session_state:
-        st.session_state.sensor_data_base, \
-        st.session_state.agent_logs_base, \
-        st.session_state.security_metrics_base, \
-        st.session_state.simulation_config = generate_synthetic_safety_data(
-            num_agents, simulation_duration_hours, base_alert_rate, anomaly_rate_multiplier, random_seed
+1.  **Explore the "Overview" page:** Read through the introduction to grasp the context of the lab.
+2.  **Navigate to the "Simulation" page:** Use the sidebar dropdown to switch to the "Simulation" section.
+3.  **Observe the plot:** You will see a "Trend Plot: Simulated Alert Frequency" showing a baseline and an attacked scenario.
+4.  **Modify the simulation (for developers):**
+    *   Open `application_pages/page_2.py` in your code editor.
+    *   Locate the `main()` function.
+    *   **Change attack parameters:** Experiment by modifying the `attack_type` or `attack_intensity` in the `simulate_vulnerability_impact` call:
+        ```python
+        security_metrics_attacked, attack_events = simulate_vulnerability_impact(
+            sensor_data_baseline, 'DDoS', 0.8, 5, {} # Example: Change attack type and intensity
         )
-
-    st.write(" Sensor Data (Baseline) ")
-    st.dataframe(st.session_state.sensor_data_base.head())
-    st.write(" Agent Logs (Baseline) ")
-    st.dataframe(st.session_state.agent_logs_base.head())
-    st.write(" Security Metrics (Baseline) ")
-    st.dataframe(st.session_state.security_metrics_base.head())
-    
-    st.markdown("""
-    The synthetic dataset has been successfully generated. We now have a baseline representation of an industrial safety monitoring system, including sensor data, agent communications, and unattacked security metrics. This synthetic data simulates the operational environment before any security vulnerabilities are introduced.
-    """)
-```
+        ```
+    *   **Modify synthetic data:** Adjust parameters in `generate_synthetic_safety_data` to see how the baseline changes.
+    *   **Enhance placeholder functions:** For a deeper understanding, try to implement more realistic logic within `generate_synthetic_safety_data` and `simulate_vulnerability_impact` to model different attack patterns (e.g., sudden spikes, gradual increase, periodic attacks) or specific AI security scenarios (e.g., data poisoning on classification accuracy, adversarial examples affecting object detection scores).
+    *   **Add more visualizations:** Integrate other plots (e.g., histograms of alert counts, distribution plots) to provide more insights into the impact of attacks.
 
 <aside class="positive">
-<b>Development Tip:</b> When building simulations, using synthetic data with controlled parameters (like random seeds) is invaluable for debugging, testing, and ensuring consistent results across runs.
+Streamlit has a hot-reloading feature. Whenever you save changes to your Python files, the application in your browser will automatically detect the changes and prompt you to "Rerun" or "Always rerun". This makes development and experimentation very efficient!
 </aside>
 
-## 6. Data Validation and Initial Statistics
-Duration: 0:03:00
-
-Data validation (`application_pages/data_validation.py`) is a critical step after data generation. It ensures the integrity and quality of our synthetic dataset before any simulation logic is applied. This process typically involves checking for:
-*   **Expected column names:** Ensuring schemas match expectations.
-*   **Correct data types:** Confirming numerical, categorical, and datetime fields are correctly interpreted.
-*   **Primary-key uniqueness:** Guaranteeing unique identifiers where expected.
-*   **Absence of missing values:** Verifying that critical fields do not contain nulls.
-
-Additionally, summary statistics for numeric columns provide an initial understanding of the data distribution, which helps in identifying any anomalies even before attack simulation.
-
-### Code Overview (`application_pages/data_validation.py`)
-This page contains a placeholder for the `validate_and_summarize_data` function. In a complete implementation, this function would perform various checks using Pandas functionalities.
-
-```python
-import streamlit as st
-import pandas as pd
-import numpy as np
-
-# Data Validation Page
-
-def main():
-    st.markdown("""
-    ## Section 6: Data Validation and Initial Statistics
-    
-    Data validation is a crucial step to ensure the integrity and quality of our synthetic dataset. This process confirms expected column names, data types, and primary-key uniqueness, and asserts the absence of missing values in critical fields. Summary statistics for numeric columns provide an initial understanding of the data distribution.
-    """)
-    
-    # Data Validation Function - Placeholder
-    def validate_and_summarize_data(df: pd.DataFrame, df_name: str, expected_columns: list, expected_dtypes: dict, critical_fields_no_null: list, unique_key: str = None):
-        st.subheader(f"Validation for {df_name}")
-        
-        # 1. Check for expected columns
-        missing_cols = [col for col in expected_columns if col not in df.columns]
-        if missing_cols:
-            st.error(f"Missing columns in {df_name}: {', '.join(missing_cols)}")
-            return False
-        else:
-            st.success(f"All expected columns found in {df_name}.")
-
-        # 2. Check data types
-        dtype_errors = []
-        for col, dtype in expected_dtypes.items():
-            if col in df.columns and str(df[col].dtype) != dtype:
-                dtype_errors.append(f"Column '{col}' has type '{df[col].dtype}', expected '{dtype}'.")
-        if dtype_errors:
-            for error in dtype_errors:
-                st.warning(error)
-            st.warning(f"Data type mismatches found in {df_name}.")
-            # return False # Decide if dtype mismatch is critical enough to stop
-        else:
-            st.success(f"All expected data types are correct in {df_name}.")
-
-        # 3. Check for missing values in critical fields
-        null_errors = []
-        for field in critical_fields_no_null:
-            if field in df.columns and df[field].isnull().any():
-                null_errors.append(f"Critical field '{field}' contains missing values.")
-        if null_errors:
-            for error in null_errors:
-                st.error(error)
-            st.error(f"Missing values found in critical fields of {df_name}.")
-            return False
-        else:
-            st.success(f"No missing values in critical fields of {df_name}.")
-
-        # 4. Check for unique key (if provided)
-        if unique_key and unique_key in df.columns:
-            if not df[unique_key].is_unique:
-                st.error(f"Unique key '{unique_key}' is not unique in {df_name}.")
-                return False
-            else:
-                st.success(f"Unique key '{unique_key}' is unique in {df_name}.")
-        
-        # 5. Display summary statistics for numeric columns
-        st.markdown(f"#### Summary Statistics for {df_name}")
-        st.dataframe(df.describe())
-
-        return True
-
-    # Assuming st.session_state.sensor_data_base, etc., are populated from the previous step
-    if 'sensor_data_base' in st.session_state:
-        st.write("")
-        # Define expected schema for demonstration
-        sensor_data_cols = ['timestamp', 'equipment_id', 'temperature', 'pressure', 'vibration']
-        sensor_data_dtypes = {'timestamp': 'datetime64[ns]', 'equipment_id': 'int64', 'temperature': 'float64', 'pressure': 'float64', 'vibration': 'float64'}
-        sensor_data_critical = ['timestamp', 'equipment_id']
-        validate_and_summarize_data(st.session_state.sensor_data_base, "Sensor Data", sensor_data_cols, sensor_data_dtypes, sensor_data_critical, 'timestamp')
-
-        st.write("")
-        agent_logs_cols = ['timestamp', 'agent_id', 'log_message', 'status']
-        agent_logs_dtypes = {'timestamp': 'datetime64[ns]', 'agent_id': 'int64', 'log_message': 'object', 'status': 'object'}
-        agent_logs_critical = ['timestamp', 'agent_id', 'log_message']
-        validate_and_summarize_data(st.session_state.agent_logs_base, "Agent Logs", agent_logs_cols, agent_logs_dtypes, agent_logs_critical, 'timestamp')
-        
-        st.write("")
-        security_metrics_cols = ['timestamp', 'alert_rate', 'agent_integrity_score', 'detection_latency']
-        security_metrics_dtypes = {'timestamp': 'datetime64[ns]', 'alert_rate': 'int64', 'agent_integrity_score': 'float64', 'detection_latency': 'float64'}
-        security_metrics_critical = ['timestamp']
-        validate_and_summarize_data(st.session_state.security_metrics_base, "Security Metrics", security_metrics_cols, security_metrics_dtypes, security_metrics_critical, 'timestamp')
-        
-        st.success("All baseline datasets passed validation checks.")
-    else:
-        st.warning("Please run the 'Synthetic Data Generation' step first to populate baseline data.")
-
-    st.markdown("""
-    The synthetic datasets have passed validation checks, confirming their structural integrity and data types. The summary statistics provide a preliminary understanding of the distributions within the data, which forms a reliable foundation for simulating attacks.
-    """)
-```
-
-<aside class="positive">
-<b>Concept Explained:</b> Robust data validation is a cornerstone of reliable simulations and machine learning pipelines. It prevents "garbage in, garbage out" scenarios, ensuring that subsequent analyses and models are built upon trustworthy data.
-</aside>
-
-## 7. Vulnerability Simulation - Attack Logic Implementation
-Duration: 0:05:00
-
-This is the core of the lab where the AI security vulnerabilities are simulated. The `simulate_vulnerability_impact` function (`application_pages/vulnerability_simulation.py`) takes the baseline security metrics and applies the mathematical models defined in Section 4. This modification is based on the user-selected `Attack Type`, `Attack Intensity`, and `Number of Compromised Agents`.
-
-This simulation concretely demonstrates the effects of:
-*   **'Synthetic-identity risk':** Compromised agents acting maliciously, leading to altered behaviors or outputs.
-*   **'Untraceable data leakage':** Covert data exfiltration via altered agent behavior or system metrics.
-
-### Code Overview (`application_pages/vulnerability_simulation.py`)
-This section provides a placeholder for the `simulate_vulnerability_impact` function, demonstrating how it would modify the baseline `security_metrics_df`. The function calculates `attacked_metrics_df` and `attack_events_df`.
-
-```python
-import streamlit as st
-import pandas as pd
-import numpy as np
-
-# Vulnerability Simulation Page
-
-def main():
-    st.markdown("""
-    ## Section 7: Vulnerability Simulation - Attack Logic Implementation
-    
-    This section details the core logic for simulating AI security vulnerabilities. The `simulate_vulnerability_impact` function applies the mathematical models defined earlier to modify the baseline security metrics based on the user-selected `Attack Type`, `Attack Intensity`, and `Number of Compromised Agents`. This simulation will demonstrate the effects of 'synthetic-identity risk' (compromised agents acting maliciously) and 'untraceable data leakage' (covert data exfiltration via altered behavior).
-    """)
-    
-    # Simulate Vulnerability Impact Function - Placeholder
-    def simulate_vulnerability_impact(base_metrics_df: pd.DataFrame, attack_type: str, attack_intensity: float, num_compromised_agents: int, simulation_config: dict):
-        attacked_metrics_df = base_metrics_df.copy()
-        
-        # Define coefficients based on attack type (from Mathematical Foundations)
-        # These are illustrative coefficients; actual values would be tuned.
-        type_coefficients = {
-            "Prompt Injection": {"C_type": 0.5, "D_type": 1.5, "K_type": 0.3},
-            "Data Poisoning": {"C_type": 0.8, "D_type": 2.5, "K_type": 0.6},
-            # Add other attack types here
-        }
-        
-        C_type = type_coefficients.get(attack_type, {}).get("C_type", 0.0)
-        D_type = type_coefficients.get(attack_type, {}).get("D_type", 0.0)
-        K_type = type_coefficients.get(attack_type, {}).get("K_type", 0.0)
-
-        # Apply Alert Frequency Over Time formula
-        # F_alerts_attacked(t) = F_alerts_base(t) * (1 + A_intensity * C_type)
-        attacked_metrics_df['alert_rate_attacked'] = attacked_metrics_df['alert_rate'] * (1 + attack_intensity * C_type)
-        
-        # Apply Detection Latency formula
-        # L_detection = L_base + A_intensity * D_type
-        base_latency = simulation_config.get("base_latency", 0.5) # Example base latency
-        attacked_metrics_df['detection_latency_attacked'] = attacked_metrics_df['detection_latency'] + (attack_intensity * D_type)
-
-        # Apply Agent Integrity Score formula for *compromised agents*
-        # I_agent_attacked = I_agent_base * (1 - A_intensity * K_type)
-        # Assuming we have an agent_id in base_metrics_df or a way to link to agents
-        # For simplicity, we'll apply a general reduction here, or simulate specific agents.
-        # In a more complex simulation, you'd apply this to specific num_compromised_agents' scores
-        # Here, we'll simulate a general reduction based on the idea that the system's overall integrity is affected.
-        attacked_metrics_df['agent_integrity_score_attacked'] = attacked_metrics_df['agent_integrity_score'] * (1 - attack_intensity * K_type)
-        
-        # Simulate attack events (for untraceable data leakage, etc.)
-        # These events would occur when the attack_intensity > 0
-        if attack_intensity > 0:
-            num_attack_events = int(attack_intensity * len(base_metrics_df) * 0.1) # 10% of data points might have an event
-            if num_attack_events > 0:
-                event_indices = np.random.choice(base_metrics_df.index, num_attack_events, replace=False)
-                attack_events_df = pd.DataFrame({
-                    'timestamp': base_metrics_df.loc[event_indices, 'timestamp'],
-                    'event_type': [attack_type] * num_attack_events,
-                    'severity': [f"High ({attack_intensity:.2f})" if attack_intensity > 0.5 else f"Medium ({attack_intensity:.2f})"] * num_attack_events,
-                    'description': [f"Simulated {attack_type} detected with intensity {attack_intensity:.2f}. " \
-                                    f"Compromised agents: {num_compromised_agents}." for _ in range(num_attack_events)]
-                }).sort_values('timestamp').reset_index(drop=True)
-            else:
-                attack_events_df = pd.DataFrame(columns=['timestamp', 'event_type', 'severity', 'description'])
-        else:
-            attack_events_df = pd.DataFrame(columns=['timestamp', 'event_type', 'severity', 'description'])
-            
-        return attacked_metrics_df, attack_events_df
-
-    # Display Attacked Results - Placeholder
-    st.subheader("Simulated Attack Results")
-    
-    # Retrieve base data and configuration from session_state
-    if 'security_metrics_base' in st.session_state and \
-       'selected_attack_type' in st.session_state and \
-       'selected_attack_intensity' in st.session_state and \
-       'selected_num_compromised_agents' in st.session_state and \
-       'simulation_config' in st.session_state:
-
-        attacked_metrics, attack_events = simulate_vulnerability_impact(
-            st.session_state.security_metrics_base,
-            st.session_state.selected_attack_type,
-            st.session_state.selected_attack_intensity,
-            st.session_state.selected_num_compromised_agents,
-            st.session_state.simulation_config
-        )
-        
-        # Store attacked results in session state for later use (e.g., visualizations)
-        st.session_state.security_metrics_attacked = attacked_metrics
-        st.session_state.attack_events = attack_events
-
-        st.write(" Attacked Security Metrics ")
-        st.dataframe(attacked_metrics.head())
-        st.write(" Attack Events ")
-        st.dataframe(attack_events.head())
-    else:
-        st.warning("Please ensure 'Configuration' and 'Synthetic Data Generation' steps are completed.")
-        st.dataframe(pd.DataFrame()) # Empty dataframe placeholder
-        st.dataframe(pd.DataFrame()) # Empty dataframe placeholder
-    
-    st.markdown("""
-    The simulation of the chosen AI security vulnerability has been applied to the baseline security metrics. We now have a modified dataset that reflects the impact of the attack on alert frequency, agent integrity, and provides details on simulated detection latency. This data will be used for visualization and further analysis.
-    """)
-```
-
-<aside class="positive">
-<b>Key Insight:</b> This step demonstrates how abstract mathematical models translate into tangible changes in system performance metrics, making the impact of AI vulnerabilities quantifiable and observable.
-</aside>
-
-## 8. Visualizing Attack Trends
-Duration: 0:04:00
-
-Visualizations are essential for interpreting the results of the simulation. This section (`application_pages/visualizations.py`) focuses on creating a trend plot to compare `Alert Frequency over Time` for both the baseline (unattacked) and the attacked scenarios.
-
-This line plot provides a clear visual representation of how the simulated vulnerability impacts the system's ability to generate alerts. This directly reflects concepts like:
-*   **Prompt injection hijacking LLM behavior:** Leading to an abnormal increase or decrease in alerts.
-*   **Data poisoning causing malicious samples:** Altering outputs and subsequently, alert frequencies.
-
-### Code Overview (`application_pages/visualizations.py`)
-This section provides a placeholder for the `plot_alert_frequency_trend` function. It uses `matplotlib.pyplot` to generate a line plot comparing baseline and attacked alert frequencies.
-
-```python
-import streamlit as st
-import matplotlib.pyplot as plt
-import pandas as pd
-
-# Visualizations Page
-
-def main():
-    st.markdown("""
-    ## Section 8: Trend Plot: Alert Frequency Over Time - Implementation
-    
-    A trend plot is essential for visualizing time-based metrics. This line plot will compare the `Alert Frequency over Time` for both the baseline (unattacked) and the attacked scenarios. It provides a clear visual representation of how the simulated vulnerability impacts the system's ability to generate alerts, reflecting the concept of prompt injection 'hijacking LLM behavior' or data poisoning causing 'malicious samples' to alter outputs.
-    """)
-    
-    # Plot Alert Frequency Trend Function - Placeholder
-    def plot_alert_frequency_trend(base_df: pd.DataFrame, attacked_df: pd.DataFrame, attack_type: str, attack_intensity: float, font_size: int = 12):
-        fig, ax = plt.subplots(figsize=(12, 6))
-        
-        ax.plot(base_df['timestamp'], base_df['alert_rate'], label='Baseline Alert Frequency', color='blue', alpha=0.7)
-        ax.plot(attacked_df['timestamp'], attacked_df['alert_rate_attacked'], label=f'Attacked Alert Frequency ({attack_type} @ {attack_intensity*100:.0f}%)', color='red', linestyle='--', alpha=0.7)
-        
-        ax.set_title(f'Alert Frequency Over Time: {attack_type} Simulation', fontsize=font_size + 2)
-        ax.set_xlabel('Timestamp', fontsize=font_size)
-        ax.set_ylabel('Alert Frequency', fontsize=font_size)
-        ax.legend(fontsize=font_size - 2)
-        ax.grid(True, linestyle=':', alpha=0.6)
-        plt.xticks(rotation=45, ha='right', fontsize=font_size - 2)
-        plt.yticks(fontsize=font_size - 2)
-        plt.tight_layout()
-        
-        return fig
-
-    # Display Plot - Placeholder
-    if 'security_metrics_base' in st.session_state and 'security_metrics_attacked' in st.session_state and \
-       'selected_attack_type' in st.session_state and 'selected_attack_intensity' in st.session_state:
-        
-        fig_alert_frequency = plot_alert_frequency_trend(
-            st.session_state.security_metrics_base,
-            st.session_state.security_metrics_attacked,
-            st.session_state.selected_attack_type,
-            st.session_state.selected_attack_intensity
-        )
-        st.pyplot(fig_alert_frequency)
-    else:
-        st.warning("Please complete 'Synthetic Data Generation' and 'Vulnerability Simulation' steps to see the plot.")
-        st.pyplot(plt.figure()) # Display an empty figure
-```
-
-<aside class="positive">
-<b>Visualization Importance:</b> Visualizing time-series data is critical for understanding trends and anomalies that might not be obvious from raw data tables. This plot makes the impact of the simulated attack immediately apparent.
-</aside>
-
-## 9. Discussion of Results and Learning Outcomes
-Duration: 0:03:00
-
-Having progressed through the simulation, this section (`application_pages/discussion.py`) consolidates the observations and reiterates the key learning outcomes. It prompts reflection on how different attack parameters manifest in system behavior and how this understanding contributes to building more robust AI systems.
-
-### What We've Learned
-Through this simulation, we have observed the tangible impacts of various AI security vulnerabilities on an agentic industrial safety monitoring system. The lab provided a hands-on experience in:
-
-*   **Identifying Vulnerabilities**: We saw how 'synthetic-identity risk' and 'untraceable data leakage' manifest through changes in system alerts and agent integrity.
-*   **Adversarial Testing**: The simulation of 'prompt injection' and 'data poisoning' illustrated how malicious inputs can significantly alter system behavior and outputs, mirroring how such attacks can 'hijack LLM behavior'.
-*   **Analyzing Defenses**: By manipulating `Attack Intensity` and `Attack Type`, users can infer the necessity of robust 'risk controls in the assurance plan' and 'red teaming chains of agents' for continuous validation.
-*   **Understanding System Response**: The plots revealed how an attack can increase alert frequency and potentially lengthen detection latency, emphasizing the need for adaptive systems to implement effective defenses.
-
-### Code Overview (`application_pages/discussion.py`)
-
-```python
-import streamlit as st
-
-# Discussion of Results Page
-
-def main():
-    st.markdown("""
-    ## Section 11: Discussion of Results and Learning Outcomes
-    
-    Through this simulation, we have observed the tangible impacts of various AI security vulnerabilities on an agentic industrial safety monitoring system. The lab provided a hands-on experience in:
-
-    - **Identifying Vulnerabilities**: We saw how 'synthetic-identity risk' and 'untraceable data leakage' manifest through changes in system alerts and agent integrity.
-    - **Adversarial Testing**: The simulation of 'prompt injection' and 'data poisoning' illustrated how malicious inputs can significantly alter system behavior and outputs, mirroring how such attacks can 'hijack LLM behavior'.
-    - **Analyzing Defenses**: By manipulating `Attack Intensity` and `Attack Type`, users can infer the necessity of robust 'risk controls in the assurance plan' and 'red teaming chains of agents' for continuous validation.
-    - **Understanding System Response**: The plots revealed how an attack can increase alert frequency and potentially lengthen detection latency, emphasizing the need for adaptive systems to implement effective defenses.
-
-    This practical exposure reinforces the theoretical concepts of AI security and the importance of rigorous testing and validation in building trustworthy AI systems.
-    """)
-```
-
-<aside class="positive">
-<b>Further Exploration:</b> Consider how different combinations of attack types and intensities might interact. How would varying the number of compromised agents change the observed impact?
-</aside>
-
-## 10. Conclusion
-Duration: 0:01:00
-
-This final content section (`application_pages/conclusion.py`) summarizes the overall value proposition of the AI Security Vulnerability Simulation Lab. It reiterates the importance of practical exposure to AI security threats and the role of interactive tools in fostering deeper understanding and promoting the development of resilient AI systems.
-
-### Code Overview (`application_pages/conclusion.py`)
-```python
-import streamlit as st
-
-# Conclusion Page
-
-def main():
-    st.markdown("""
-    ## Section 12: Conclusion
-    
-    This AI Security Vulnerability Simulation Lab successfully demonstrated the critical need for understanding and mitigating threats in agentic AI systems. By generating synthetic data and simulating various attack scenarios, users gained valuable insights into the practical implications of AI security vulnerabilities. The interactive nature of the lab allows for continuous exploration of different attack parameters, fostering a deeper comprehension of how to design and validate resilient AI systems.
-    """)
-```
-
-## 11. References
-Duration: 0:01:00
-
-This section (`application_pages/references.py`) provides a list of resources that informed the development of this lab and offers further reading for those interested in delving deeper into AI security, adversarial testing, and relevant Python libraries.
-
-### Code Overview (`application_pages/references.py`)
-```python
-import streamlit as st
-
-# References Page
-
-def main():
-    st.markdown("""
-    ## Section 13: References
-    1. **[1] Case 3: Agentic AI for Safety Monitoring, Provided Resource Document.** This document describes AI-security vulnerabilities like 'synthetic-identity risk' and 'untraceable data leakage', and the importance of rigorous testing and risk controls.
-    2. **[2] Unit 6: Testing, Validation and AI Security, Adversarial Testing and Red-Teaming, Provided Resource Document.** This section explores threats like prompt injection and data poisoning, and discusses the impact of malicious samples on LLM output.
-    3. **Pandas Library**: A fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language. (https://pandas.pydata.org/)
-    4. **NumPy Library**: The fundamental package for scientific computing with Python. (https://numpy.org/)
-    5. **Matplotlib Library**: A comprehensive library for creating static, animated, and interactive visualizations in Python. (https://matplotlib.org/)
-    6. **Seaborn Library**: A Python data visualization library based on matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics. (https://seaborn.pydata.org/)
-    7. **IPywidgets Library**: Interactive HTML widgets for Jupyter notebooks and the IPython kernel. (https://ipywidgets.readthedocs.io/en/latest/)
-    """)
-```
+This concludes the guide for the AI Security Vulnerability Simulation Lab. You now have a foundational understanding of its structure, functionality, and how to extend it.
