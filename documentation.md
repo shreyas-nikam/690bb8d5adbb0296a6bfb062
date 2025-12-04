@@ -3,440 +3,441 @@ summary: AI Security Vulnerability Simulation Lab Documentation
 feedback link: https://docs.google.com/forms/d/e/1FAIpQLSfWkOK-in_bMMoHSZfcIvAeO58PAH9wrDqcxnJABHaxiDqhSA/viewform?usp=sf_link
 environments: Web
 status: Published
-# QuLab: Exploring AI Security Vulnerabilities in Agentic Systems
+```
+# AI Security Vulnerability Simulation Lab Codelab
 
-## Introduction: Unveiling AI Security Vulnerabilities
-Duration: 00:05
-Welcome to the QuLab AI Security Vulnerability Simulation! In this comprehensive codelab, you will dive into the critical and evolving domain of AI security, specifically focusing on agentic AI systems. With the increasing adoption of AI agents in sensitive applications like industrial safety monitoring, understanding and mitigating their vulnerabilities is paramount.
+## 1. Introduction to the AI Security Vulnerability Simulation Lab
+Duration: 00:05:00
 
-This lab provides a unique opportunity for hands-on experience in simulating various adversarial attack scenarios, such as **prompt injection** and **data poisoning**, on a simulated industrial safety monitoring system. By interacting with our custom Streamlit application, you will gain practical insights into how these vulnerabilities manifest, their potential impact on system performance and security metrics, and how to effectively interpret the results.
-
-We will explore crucial concepts like **'synthetic-identity risk'** and **'untraceable data leakage'**, and observe how different attack intensities and types can influence key operational metrics, including alert frequencies, detection latencies, and agent integrity scores. The ultimate goal is to equip you with a foundational understanding of adversarial testing techniques and highlight the indispensable role of robust risk controls in the design and deployment of secure and adaptive AI systems.
-
-**What you will learn:**
-*   **Identify common AI-security vulnerabilities** such as prompt injection, data poisoning, synthetic-identity risk, and untraceable data leakage.
-*   **Understand the potential impact** of different attack vectors on an agentic AI system.
-*   **Analyze changes in system behavior** and security metrics under simulated attack conditions.
-*   **Grasp the practical implications** for designing more resilient and secure AI systems.
-*   **Utilize a Streamlit application** to interactively simulate, visualize, and analyze AI security scenarios.
-
-Let's begin our journey into securing agentic AI!
-
-## Step 1: Setting Up the Environment and Understanding the Application Structure
-Duration: 00:10
-To get started with this codelab, you'll need to run the Streamlit application. If you have Python and Streamlit installed, you can run it from your terminal.
+Welcome to the **AI Security Vulnerability Simulation Lab**! This codelab will guide you through a Streamlit application designed to provide hands-on experience in identifying, understanding, and analyzing critical AI-security vulnerabilities. The lab focuses specifically on agentic AI systems used for industrial safety monitoring.
 
 <aside class="positive">
-If you don't have Streamlit installed, you can install it using pip:
-```bash
-pip install streamlit pandas numpy scipy plotly
-```
+<b>Why is this lab important?</b> With the increasing adoption of AI in critical infrastructure and decision-making processes, understanding and mitigating AI-specific security risks is paramount. This lab offers a practical environment to explore these challenges without needing real-world compromised systems.
 </aside>
 
-**Running the Application:**
+#### Learning Outcomes
+By the end of this codelab, you will be able to:
+*   Understand the key insights contained in the simulated data.
+*   Identify common AI-security vulnerabilities, including 'synthetic-identity risk' and 'untraceable data leakage'.
+*   Learn about adversarial testing techniques like prompt injection and data poisoning.
+*   Analyze the effectiveness of different defense strategies and risk controls in mitigating AI security threats.
 
-Navigate to the directory containing `app.py` in your terminal and execute:
-```bash
-streamlit run app.py
+#### Scope and Constraints
+This lab is optimized for performance, designed to execute end-to-end on a mid-spec laptop (8 GB RAM) in fewer than 5 minutes. It exclusively uses open-source Python libraries from PyPI. All major steps include both code comments and brief narrative explanations of 'what' is happening and 'why'.
+
+### Application Architecture Overview
+
+The Streamlit application is structured into several distinct pages, each serving a specific purpose, accessible via a sidebar navigation. This modular design makes it easy to understand and extend the application's functionalities.
+
+```mermaid
+graph TD
+    A[app.py (Main Entry Point)] --> B{Streamlit Sidebar Navigation}
+    B --> C[Introduction Page]
+    B --> D[Setup Page]
+    B --> E[Configuration Page]
+    B --> F[Simulation Page]
+    B --> G[Visualization Page]
+
+    C -- "application_pages/introduction.py" --> MainContent1[Explains Lab Purpose, Learning Outcomes]
+    D -- "application_pages/setup.py" --> MainContent2[Handles Library Imports, Environment Prep]
+    E -- "application_pages/configuration.py" --> MainContent3[User Input for Attack Parameters, Constants Display]
+    F -- "application_pages/simulation.py" --> MainContent4[Generates Synthetic Data, Executes Attack Simulation]
+    G -- "application_pages/visualization.py" --> MainContent5[Plots Simulation Results (Trends, Impact)]
 ```
-This command will open the Streamlit application in your default web browser.
+*Figure 1: High-level Application Architecture*
 
-### Application Architecture
-The application is structured to be modular and easy to navigate. Here's a quick overview of its components:
+As depicted above, `app.py` acts as the orchestrator, loading different content based on user selection in the sidebar. Each page (`introduction.py`, `setup.py`, etc.) encapsulates a specific functional aspect of the simulation lab.
 
-*   **`app.py`**: This is the main entry point of the Streamlit application. It sets up the page configuration, displays the main title and introductory markdown, and handles the navigation between different pages using a sidebar `selectbox`.
-*   **`application_pages/` directory**: This directory contains the individual page scripts (`page1.py`, `page2.py`, `page3.py`). Each script defines the content and logic for a specific section of the codelab.
-*   **`application_pages/utils.py`**: This file contains all the core utility functions shared across the different application pages. This includes functions for generating synthetic data, validating data, simulating attack impacts, and generating interactive plots.
+## 2. Environment Setup and Library Imports
+Duration: 00:02:00
 
-Let's examine the `app.py` file:
+The first functional step in any robust application is ensuring that all necessary dependencies are loaded and the environment is correctly set up. In this lab, the `setup.py` page handles this aspect.
+
+<aside class="positive">
+While the `setup.py` page in this Streamlit app primarily serves as an informational placeholder, in a real-world scenario, this section would contain actual code for installing dependencies (e.g., via `pip install -r requirements.txt`), setting environment variables, or performing initial data checks. For this lab, we assume all required libraries are pre-installed.
+</aside>
+
+The content of `application_pages/setup.py` simply informs the user that the necessary libraries have been "successfully loaded," indicating readiness for the subsequent steps.
 
 ```python
+# application_pages/setup.py
 import streamlit as st
 
-st.set_page_config(page_title="QuLab", layout="wide")
-st.sidebar.image("https://www.quantuniversity.com/assets/img/logo5.jpg")
-st.sidebar.divider()
-st.title("QuLab")
-st.divider()
-st.markdown(r"""
-In this lab, you will explore the fascinating and critical world of AI security vulnerabilities within agentic AI systems. We'll simulate various attack scenarios, such as prompt injection and data poisoning, on an industrial safety monitoring system. By interacting with the simulation, you'll gain hands-on experience in understanding how these vulnerabilities manifest, their impact on system performance and security metrics, and how to interpret the results.
+def main():
+    st.markdown("## Section 2: Setup and Library Imports")
+    st.markdown(r"""
+    First, we import all necessary Python libraries. This ensures that all required functionalities for data generation, manipulation, simulation, and visualization are available.
 
-This simulation provides a controlled environment to study concepts like 'synthetic-identity risk' and 'untraceable data leakage'. You'll see how different attack intensities and types can affect alert frequencies, detection latencies, and agent integrity scores. The goal is to equip you with practical insights into adversarial testing techniques and the importance of robust risk controls in AI system design.
-
-Through interactive visualizations and data analysis, you will learn to:
-- Identify common AI-security vulnerabilities.
-- Understand the potential impact of different attack vectors.
-- Analyze changes in system behavior under attack.
-- Grasp the practical implications for designing more secure and adaptive AI systems.
-
-Lets get started by navigating through the pages using the sidebar!
-"""))
-
-# Your code starts here
-page = st.sidebar.selectbox(label="Navigation", options=["Page 1: Overview & Data Generation", "Page 2: Simulation Configuration & Validation", "Page 3: Vulnerability Simulation & Analysis"])
-if page == "Page 1: Overview & Data Generation":
-    from application_pages.page1 import run_page1
-    run_page1()
-elif page == "Page 2: Simulation Configuration & Validation":
-    from application_pages.page2 import run_page2
-    run_page2()
-elif page == "Page 3: Vulnerability Simulation & Analysis":
-    from application_pages.page3 import run_page3
-    run_page3()
-# Your code ends
+    The required libraries have been successfully loaded. We are now ready to define the parameters for our simulation and proceed with data generation and analysis.
+    """)
 ```
-As you can see, `app.py` serves as a dispatcher, calling the `run_pageX()` function based on the user's selection in the sidebar. This modular approach allows for a clean separation of concerns and easy navigation through the different stages of the codelab.
+This page ensures that conceptually, the user understands that foundational steps have been taken before diving into configuration and simulation.
 
-## Step 2: Page 1: Overview & Data Generation
-Duration: 00:15
-The first page of our application, "Page 1: Overview & Data Generation", introduces the lab's goals and the synthetic dataset it uses. Crucially, this page is responsible for generating the baseline data that represents the normal, secure operation of our simulated industrial safety monitoring system. This baseline is essential for comparing against the attacked scenarios later.
+## 3. Configuring the Simulation Parameters
+Duration: 00:07:00
 
-### Learning Goals and Data Overview
-The page starts by reiterating the learning goals and provides an overview of the synthetic data:
-*   **Sensor Readings**: Time-series data from various industrial sensors (e.g., temperature, pressure).
-*   **Agent Communication Logs**: Records of messages exchanged between AI agents (e.g., status updates, alerts, communications).
-*   **Security Metrics**: Baseline measurements of system behavior, such as alert frequency and agent integrity scores.
+The "Configuration" page (`application_pages/configuration.py`) is where you, as a developer or security analyst, define the parameters for the AI security vulnerability simulation. This page uses Streamlit's sidebar widgets to allow interactive adjustment of key variables that influence the simulation's outcome.
 
-This synthetic data is lightweight yet realistic enough to demonstrate AI security vulnerability concepts effectively.
+### Simulation Constants
 
-### Fixed Simulation Parameters
-The application uses several fixed parameters for data generation, ensuring consistency across simulations:
+Before diving into user inputs, let's look at the fixed constants that define the simulation's baseline environment:
 
 ```python
-# Fixed simulation parameters (as per notebook)
+# application_pages/configuration.py (partial)
+# Constants
+SIMULATION_DURATION_HOURS = 2       # Total duration of the simulated scenario
+NUM_AGENTS = 10                     # Total number of AI agents being monitored
+BASE_ALERT_RATE_PER_HOUR = 5        # Baseline frequency of security alerts from agents
+ANOMALY_RATE_MULTIPLIER = 2.5       # Factor by which anomaly rates increase during attacks
+RANDOM_SEED = 42                    # Seed for reproducibility of random processes
+```
+These constants establish the fundamental characteristics of our simulated industrial safety monitoring system.
+
+### Interactive Configuration via Sidebar
+
+The `main` function in `configuration.py` sets up the sidebar controls and displays the current configuration.
+
+```python
+# application_pages/configuration.py
+import streamlit as st
+
+# Constants (as defined above)
 SIMULATION_DURATION_HOURS = 2
 NUM_AGENTS = 10
-BASE_ALERT_RATE_PER_HOUR = 0.5
-ANOMALY_RATE_MULTIPLIER = 1.5
+BASE_ALERT_RATE_PER_HOUR = 5
+ANOMALY_RATE_MULTIPLIER = 2.5
 RANDOM_SEED = 42
-```
-These parameters define the scale and randomness of the generated data.
 
-### Generating Baseline Data
-The core functionality of this page is to generate the baseline data. This is handled by the `generate_synthetic_safety_data` function located in `application_pages/utils.py`.
+def main():
+    st.sidebar.title("AI Security Vulnerability Simulation Lab")
+    st.sidebar.markdown("Adjust parameters to observe the impact of AI security vulnerabilities.")
 
-Here's how `page1.py` calls this function and stores the results:
+    # Initialize st.session_state variables if they don't exist
+    if 'selected_attack_intensity' not in st.session_state:
+        st.session_state.selected_attack_intensity = 0.5
+    if 'selected_attack_type' not in st.session_state:
+        st.session_state.selected_attack_type = 'Prompt Injection'
+    if 'selected_num_compromised_agents' not in st.session_state:
+        st.session_state.selected_num_compromised_agents = 2
 
-```python
-# From application_pages/page1.py
-# ...
-from application_pages.utils import generate_synthetic_safety_data, SIMULATION_DURATION_HOURS, NUM_AGENTS, BASE_ALERT_RATE_PER_HOUR, ANOMALY_RATE_MULTIPLIER, RANDOM_SEED
-
-def run_page1():
-    # ... introductory markdown ...
-
-    if 'sensor_data_baseline' not in st.session_state:
-        sensor_data_baseline, agent_logs_baseline, security_metrics_baseline, simulation_config = \
-            generate_synthetic_safety_data(NUM_AGENTS, SIMULATION_DURATION_HOURS, BASE_ALERT_RATE_PER_HOUR, ANOMALY_RATE_MULTIPLIER, RANDOM_SEED)
-
-        st.session_state['sensor_data_baseline'] = sensor_data_baseline
-        st.session_state['agent_logs_baseline'] = agent_logs_baseline
-        st.session_state['security_metrics_baseline'] = security_metrics_baseline
-        st.session_state['simulation_config'] = simulation_config
-
-    st.success("Baseline data generated and stored in session state.")
-
-    # ... data previews ...
-```
-<aside class="positive">
-Notice the use of `st.session_state`. Streamlit's session state allows you to store and persist variables across reruns of the application. This is crucial here because `generate_synthetic_safety_data` is called only once, and its results are then available to other pages without re-computation.
-</aside>
-
-The `generate_synthetic_safety_data` function in `application_pages/utils.py` creates three DataFrames:
-1.  **`sensor_data_df`**: Contains timestamped sensor readings (temperature, pressure) for each agent.
-2.  **`agent_logs_df`**: Records communication logs for each agent, including message type, content, and an associated risk score.
-3.  **`base_security_metrics_df`**: Provides a baseline for alert frequency and agent integrity scores over time for each agent.
-
-After generation, the first five rows of each baseline DataFrame are displayed on "Page 1" for preview.
-
-You can now review the introductory text and the generated data previews on "Page 1" of the Streamlit application. Once you're familiar with the baseline, proceed to the next step by navigating to "Page 2: Simulation Configuration & Validation" in the sidebar.
-
-## Step 3: Page 2: Simulation Configuration & Validation
-Duration: 00:20
-"Page 2: Simulation Configuration & Validation" is where you define the parameters for simulating AI security vulnerabilities and validate the integrity of the generated baseline data. This page lays the groundwork for understanding the attack's impact.
-
-### Methodology Overview
-The page begins by outlining the simulation methodology:
-1.  **Synthetic Data Generation**: (Completed on Page 1)
-2.  **Interactive Parameter Definition**: Define attack type, intensity, and number of compromised agents.
-3.  **Attack Simulation**: Apply mathematical models to modify security metrics based on attack parameters.
-4.  **Visualization**: Generate plots to show attack effects.
-5.  **Analysis and Interpretation**: Discuss observed impacts.
-
-### Key Mathematical Foundations for Attack Simulation
-A crucial aspect of this simulation is the use of mathematical models to quantify the impact of different attack types and intensities. These models are defined with specific coefficients (`C_TYPE_DICT`, `K_TYPE_DICT`, `D_TYPE_DICT`, `L_BASE`) from `application_pages/utils.py` that dictate how each attack type affects various metrics.
-
-Here are the mathematical relationships:
-
-#### Alert Frequency Over Time
-The alert frequency under attack, $F_{alerts\_attacked}(t)$, is calculated as:
-$$
-F_{alerts\_attacked}(t) = F_{alerts\_base}(t) \cdot (1 + A_{intensity} \cdot C_{type})
-$$
-Where:
-*   $F_{alerts\_base}(t)$ is the baseline alert frequency at time $t$.
-*   $A_{intensity}$ is the user-defined attack intensity, $A_{intensity} \in [0, 1]$.
-*   $C_{type}$ is a scaling factor specific to the `Attack Type`, reflecting its inherent impact potential. For example, a data poisoning attack might have a higher $C_{type}$ than a mild prompt injection.
-    *   Current values: `{'Prompt Injection': 0.5, 'Data Poisoning': 0.8, 'Synthetic Identity': 0.6, 'Untraceable Data Leakage': 0.7}`
-
-#### Detection Latency
-The simulated detection latency, $L_{detection}$, is calculated as:
-$$
-L_{detection} = L_{base} + A_{intensity} \cdot D_{type}
-$$
-Where:
-*   $L_{base}$ is a nominal baseline detection latency ($L_{base} = 5$ minutes).
-*   $D_{type}$ is a coefficient related to the `Attack Type`, representing how challenging that specific attack is to detect quickly.
-    *   Current values: `{'Prompt Injection': 20, 'Data Poisoning': 60, 'Synthetic Identity': 45, 'Untraceable Data Leakage': 30}` (in minutes)
-
-#### Agent Integrity Score
-The agent integrity score under attack, $I_{agent\_attacked}$, is calculated as:
-$$
-I_{agent\_attacked} = I_{agent\_base} \cdot (1 - A_{intensity} \cdot K_{type})
-$$
-Where:
-*   $I_{agent\_base}$ is the baseline agent integrity score.
-*   $K_{type}$ is a coefficient for the `Attack Type`, reflecting its detrimental effect on agent trustworthiness or operational integrity. For uncompromised agents, $I_{agent\_attacked} = I_{agent\_base}$.
-    *   Current values: `{'Prompt Injection': 0.4, 'Data Poisoning': 0.7, 'Synthetic Identity': 0.8, 'Untraceable Data Leakage': 0.5}`
-
-### Configure Simulation Parameters
-On this page, you interact with the sidebar to define the attack parameters.
-
-```python
-# From application_pages/page2.py
-# ...
-    st.sidebar.header("Simulation Controls")
-    attack_intensity = st.sidebar.slider(
-        label='Attack Intensity ($A_{intensity}$):',
+    # Sidebar user inputs
+    st.session_state.selected_attack_intensity = st.sidebar.slider(
+        "Select Attack Intensity ($A_{intensity}$)",
         min_value=0.0,
         max_value=1.0,
-        value=st.session_state.get('attack_intensity', 0.5),
-        step=0.1,
-        help='Controls the severity of the simulated attack ($0.0$ = no attack, $1.0$ = maximum impact).'
+        value=st.session_state.selected_attack_intensity,
+        step=0.05,
+        help="Controls the severity of the simulated attack, ranging from $0.0$ (no attack) to $1.0$ (maximum intensity)."
     )
-    st.session_state['attack_intensity'] = attack_intensity
 
-    attack_type = st.sidebar.selectbox(
-        label='Attack Type:',
+    st.session_state.selected_attack_type = st.sidebar.selectbox(
+        "Select Attack Type",
         options=['Prompt Injection', 'Data Poisoning', 'Synthetic Identity', 'Untraceable Data Leakage'],
-        index=['Prompt Injection', 'Data Poisoning', 'Synthetic Identity', 'Untraceable Data Leakage'].index(
-            st.session_state.get('attack_type', 'Prompt Injection')
-        ),
-        help='Selects the type of AI security vulnerability to simulate.'
+        index=['Prompt Injection', 'Data Poisoning', 'Synthetic Identity', 'Untraceable Data Leakage'].index(st.session_state.selected_attack_type),
+        help="Determines the specific type of AI security vulnerability being simulated."
     )
-    st.session_state['attack_type'] = attack_type
 
-    num_compromised_agents = st.sidebar.slider(
-        label='Number of Compromised Agents ($N_{agents}$):',
+    st.session_state.selected_num_compromised_agents = st.sidebar.slider(
+        "Select Number of Compromised Agents ($N_{agents}$)",
         min_value=0,
-        max_value=5,
-        value=st.session_state.get('num_compromised_agents', 1),
+        max_value=NUM_AGENTS,
+        value=st.session_state.selected_num_compromised_agents,
         step=1,
-        help='Specifies the count of simulated agents affected by the attack.'
+        help=f"Specifies how many of the simulated agents (out of {NUM_AGENTS}) are affected by the attack."
     )
-    st.session_state['num_compromised_agents'] = num_compromised_agents
-# ...
-```
-These parameters (`attack_intensity`, `attack_type`, `num_compromised_agents`) are stored in `st.session_state` so they can be retrieved and used on "Page 3" for the actual simulation.
 
-### Data Validation Summary
-Before running the simulation, it's good practice to validate the integrity of our baseline data. "Page 2" automatically performs validation checks on the Sensor Data, Agent Logs, and Security Metrics DataFrames. This is handled by the `validate_and_summarize_data` function in `application_pages/utils.py`.
+    st.markdown("## Current Simulation Parameters")
+    st.write(f"**Selected Attack Intensity:** {st.session_state.selected_attack_intensity}")
+    st.write(f"**Selected Attack Type:** {st.session_state.selected_attack_type}")
+    st.write(f"**Selected Number of Compromised Agents:** {st.session_state.selected_num_compromised_agents}")
+    st.write(f"**Simulation Duration (Hours):** {SIMULATION_DURATION_HOURS}")
+    st.write(f"**Number of Agents:** {NUM_AGENTS}")
+    st.write(f"**Base Alert Rate (Per Hour):** {BASE_ALERT_RATE_PER_HOUR}")
+    st.write(f"**Anomaly Rate Multiplier:** {ANOMALY_RATE_MULTIPLIER}")
+    st.write(f"**Random Seed:** {RANDOM_SEED}")
+```
+
+#### Key Elements:
+*   **`st.sidebar.title` and `st.sidebar.markdown`**: These set the title and an introductory message for the sidebar.
+*   **`st.session_state`**: This crucial Streamlit feature allows values to be preserved across reruns of the application and across different pages. When you change a value using a widget, it updates `st.session_state`, ensuring consistency.
+*   **`st.sidebar.slider`**: Used for `selected_attack_intensity` (a float from $0.0$ to $1.0$) and `selected_num_compromised_agents` (an integer from $0$ to `NUM_AGENTS`).
+*   **`st.sidebar.selectbox`**: Used for `selected_attack_type`, offering predefined vulnerability types like 'Prompt Injection' and 'Data Poisoning'.
+*   **Help Text**: Each widget includes a `help` parameter to provide context to the user about its function.
+*   **Displaying Parameters**: The main content area of the "Configuration" page dynamically displays the currently selected and static simulation parameters.
+
+By adjusting these controls, you can immediately see how different attack scenarios will be constructed for the simulation.
+
+## 4. Executing the Vulnerability Simulation
+Duration: 00:10:00
+
+The "Simulation" page (`application_pages/simulation.py`) is the core of the lab, where the synthetic safety data is generated and the chosen AI security vulnerability is simulated. This page leverages two main functions: `generate_synthetic_safety_data` and `simulate_vulnerability_impact`.
+
+### Simulation Flow
+
+```mermaid
+graph TD
+    A[Start Simulation] --> B[Load Constants and Coefficients]
+    B --> C{Call generate_synthetic_safety_data}
+    C -- "Generates Baseline Data" --> D[Display Baseline Data (Sensor, Agent, Security Metrics)]
+    D --> E{Retrieve User Config from st.session_state}
+    E --> F{Call simulate_vulnerability_impact}
+    F -- "Applies Attack to Baseline Metrics" --> G[Display Attacked Metrics and Attack Events]
+    G --> H[End Simulation Step]
+```
+*Figure 2: Simulation Process Flow*
+
+### Key Components
+
+#### 1. Simulation Constants and Coefficients
+Beyond the global constants, `simulation.py` defines specific coefficients that model the impact of different attack types.
 
 ```python
-# From application_pages/utils.py
-def validate_and_summarize_data(df, df_name, expected_columns, expected_dtypes, critical_fields_no_null=None, unique_key=None):
-    st.subheader(f" Validating {df_name} ")
+# application_pages/simulation.py (partial)
+import streamlit as st
+import pandas as pd
+import numpy as np
+
+# Constants (same as in configuration.py)
+SIMULATION_DURATION_HOURS = 2
+NUM_AGENTS = 10
+BASE_ALERT_RATE_PER_HOUR = 5
+ANOMALY_RATE_MULTIPLIER = 2.5
+RANDOM_SEED = 42
+
+# Coefficients for vulnerability impact
+COEFFS = {
+    'C_type': {'Prompt Injection': 0.5, 'Data Poisoning': 0.8, 'Synthetic Identity': 0.6, 'Untraceable Data Leakage': 0.7},
+    'K_type': {'Prompt Injection': 0.4, 'Data Poisoning': 0.7, 'Synthetic Identity': 0.8, 'Untraceable Data Leakage': 0.5},
+    'D_type': {'Prompt Injection': 20, 'Data Poisoning': 60, 'Synthetic Identity': 45, 'Untraceable Data Leakage': 30},
+    'L_base': 5
+}
+```
+*   **`C_type`**: Represents the **impact coefficient** on alert rates for each attack type. A higher value means a more significant increase in alerts.
+*   **`K_type`**: Represents the **severity coefficient** on data integrity or latency for each attack type. Higher values indicate more severe data corruption or system delays.
+*   **`D_type`**: Represents the **detection difficulty** or time delay in minutes for each attack type. Higher values mean the attack is harder/slower to detect.
+*   **`L_base`**: A baseline latency value.
+
+#### 2. `generate_synthetic_safety_data()`
+
+This function is responsible for creating a realistic baseline dataset for an industrial safety monitoring system. Although the internal implementation is abstracted, its purpose is to produce:
+*   `sensor_data_baseline`: Time-series data from various sensors.
+*   `agent_logs_baseline`: Log entries generated by AI agents.
+*   `security_metrics_baseline`: Baseline security performance indicators (e.g., alert rates, false positives).
+*   `sim_config`: The configuration used for generation.
+
+This baseline data simulates a healthy, uncompromised system before any attacks are introduced.
+
+#### 3. `simulate_vulnerability_impact()`
+
+This is where the magic happens! This function takes the baseline security metrics and applies the selected attack based on the user's configuration.
+
+*   It uses `attack_type`, `attack_intensity`, and `num_compromised_agents` from `st.session_state` (passed as arguments) along with the `COEFFS` to calculate the impact.
+*   For example, an attack might increase `alert_frequency`, degrade `data_integrity`, or introduce `system_latency` based on the coefficients for the chosen `attack_type`.
+*   It returns:
+    *   `security_metrics_attacked`: The security metrics after the simulated attack.
+    *   `attack_events`: A log of specific attack events and their simulated immediate impacts.
+
+#### Streamlit Integration
+
+The `main` function orchestrates these calls and displays the results:
+
+```python
+# application_pages/simulation.py
+def main():
+    st.markdown("## Vulnerability Simulation")
     try:
-        # 1. Check if expected columns are present
-        # ...
-        # 2. Check data types
-        # ...
-        # 3. Check critical fields for nulls
-        # ...
-        # 4. Check uniqueness of the unique key
-        # ...
-        st.subheader(f"{df_name} Summary Statistics:")
-        st.dataframe(df.describe())
-        st.success(f"{df_name} validation successful.")
-    except AssertionError as e:
-        st.error(f"Validation failed for {df_name}: {e}")
+        # Generate baseline data
+        sensor_data_baseline, agent_logs_baseline, security_metrics_baseline, sim_config = generate_synthetic_safety_data(
+            num_agents=NUM_AGENTS,
+            simulation_duration_hours=SIMULATION_DURATION_HOURS,
+            base_alert_rate=BASE_ALERT_RATE_PER_HOUR,
+            anomaly_rate_multiplier=ANOMALY_RATE_MULTIPLIER,
+            random_seed=RANDOM_SEED
+        )
+
+        st.subheader("Synthetic Data (Baseline)")
+        st.dataframe(sensor_data_baseline.head())
+        st.dataframe(agent_logs_baseline.head())
+        st.dataframe(security_metrics_baseline.head())
+
+        # Simulate the attack based on user's configuration
+        security_metrics_attacked, attack_events = simulate_vulnerability_impact(
+            base_metrics_df=security_metrics_baseline,
+            attack_type=st.session_state.selected_attack_type,
+            attack_intensity=st.session_state.selected_attack_intensity,
+            num_compromised_agents=st.session_state.selected_num_compromised_agents,
+            simulation_config=sim_config
+        )
+
+        st.subheader("Simulated Attack Results")
+        st.dataframe(security_metrics_attacked.head())
+        st.dataframe(attack_events.head())
+
     except Exception as e:
-        st.error(f"An error occurred during validation of {df_name}: {e}")
+        st.error(f"An error occurred: {e}")
 ```
-This function checks for:
-*   Presence of all expected columns.
-*   Correct data types for each column.
-*   Absence of null values in critical fields.
-*   Uniqueness of specified key columns.
+*   `st.dataframe(df.head())`: Used to display the first few rows of the generated Pandas DataFrames, allowing you to inspect the raw data.
+*   Error Handling: A `try-except` block is included to catch and display any errors during the simulation process.
 
-It then displays descriptive statistics for each DataFrame. This ensures that the data we're working with is well-formed and reliable for simulation.
+By interacting with this page, you can see how different attack types and intensities manifest in changed security metrics, such as increased alert frequencies or compromised agent integrity.
 
-Experiment with the "Simulation Controls" in the sidebar. Observe how the mathematical models described above would change for different attack types and intensities. Once you are satisfied with your chosen parameters and have reviewed the data validation summary, navigate to "Page 3: Vulnerability Simulation & Analysis" to see the attack in action.
+## 5. Visualizing Simulation Outcomes
+Duration: 00:08:00
 
-## Step 4: Page 3: Vulnerability Simulation & Analysis
-Duration: 00:25
-"Page 3: Vulnerability Simulation & Analysis" is the culmination of our codelab. Here, the configured attack parameters are applied to the baseline data, simulating the impact of the chosen AI security vulnerability. This page then visualizes and analyzes the results, providing key insights into the system's behavior under attack.
+The "Visualization" page (`application_pages/visualization.py`) is crucial for understanding the impact of the simulated AI security vulnerabilities. It presents the results from the "Simulation" step in an easily digestible graphical format using `matplotlib` and `seaborn`.
 
-### Simulating Attack Impact
-The first step on this page is to retrieve the baseline security metrics and the attack parameters from `st.session_state`. These are then passed to the `simulate_vulnerability_impact` function from `application_pages/utils.py`.
-
-```python
-# From application_pages/page3.py
-# ...
-    if (
-        'security_metrics_baseline' in st.session_state and
-        'simulation_config' in st.session_state and
-        'attack_intensity' in st.session_state and
-        'attack_type' in st.session_state and
-        'num_compromised_agents' in st.session_state
-    ):
-        security_metrics_baseline = st.session_state['security_metrics_baseline']
-        simulation_config = st.session_state['simulation_config']
-        attack_intensity = st.session_state['attack_intensity']
-        attack_type = st.session_state['attack_type']
-        num_compromised_agents = st.session_state['num_compromised_agents']
-
-        # ... display configured parameters ...
-
-        try:
-            attacked_security_metrics, attack_events_df = simulate_vulnerability_impact(
-                security_metrics_baseline, attack_type, attack_intensity, num_compromised_agents, simulation_config
-            )
-            st.session_state['security_metrics_attacked'] = attacked_security_metrics
-            st.session_state['attack_events_df'] = attack_events_df
-            st.success("Vulnerability simulation completed successfully!")
-        except ValueError as e:
-            st.error(f"Simulation error: {e}")
-        except Exception as e:
-            st.error(f"An unexpected error occurred during simulation: {e}")
-# ...
-```
-
-The `simulate_vulnerability_impact` function applies the mathematical models discussed in Step 3:
-1.  **Alert Frequency Modification**: Uses $F_{alerts\_attacked}(t) = F_{alerts\_base}(t) \cdot (1 + A_{intensity} \cdot C_{type})$ to increase alert frequencies.
-2.  **Agent Integrity Score Reduction**: Randomly selects `num_compromised_agents` and applies $I_{agent\_attacked} = I_{agent\_base} \cdot (1 - A_{intensity} \cdot K_{type})$ to reduce their integrity scores.
-3.  **Detection Latency Calculation**: Calculates the `simulated_detection_latency` using $L_{detection} = L_{base} + A_{intensity} \cdot D_{type}$.
-4.  **Attack Events DataFrame**: Creates a summary `attack_events_df` with details of the attack and its severity.
-
-The resulting `attacked_security_metrics` and `attack_events_df` are then stored back into `st.session_state`.
-
-After the simulation, a preview of the `attacked_security_metrics` and `attack_events_df` is displayed, allowing you to see the raw changes.
-
-### Visualizations
-The most impactful part of "Page 3" is the series of visualizations that graphically demonstrate the attack's effects. These plots are generated using Plotly, making them interactive.
-
-#### 1. Trend Plot: Alert Frequency Over Time
-This plot compares the average alert frequency for both baseline (normal operation) and attacked scenarios. A significant increase or divergence in the attacked scenario's alert frequency indicates a successful disruption of the system's normal alerting mechanisms.
-
-```python
-# From application_pages/utils.py
-def plot_alert_frequency_trend_plotly(base_df, attacked_df, attack_type, attack_intensity):
-    base_df_agg = base_df.groupby('timestamp')['alert_frequency'].mean().reset_index()
-    attacked_df_agg = attacked_df.groupby('timestamp')['alert_frequency'].mean().reset_index()
-
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=base_df_agg['timestamp'], y=base_df_agg['alert_frequency'],
-                             mode='lines+markers', name='Baseline', marker=dict(symbol='circle')))
-    fig.add_trace(go.Scatter(x=attacked_df_agg['timestamp'], y=attacked_df_agg['alert_frequency'],
-                             mode='lines+markers', name='Attacked', marker=dict(symbol='x')))
-
-    fig.update_layout(
-        title=f"Alert Frequency Over Time: Baseline vs. Attacked<br>({attack_type} at {attack_intensity*100:.0f}% Intensity)",
-        xaxis_title='Time',
-        yaxis_title='Average Alert Frequency',
-        hovermode='x unified',
-        legend_title_text='Scenario',
-        height=500,
-        width=800
-    )
-    st.plotly_chart(fig, use_container_width=True)
-```
-
-#### 2. Relationship Plot: Attack Severity vs. Detection Latency
-This scatter plot visualizes the correlation between the severity of the simulated attack and the system's ability to detect it in a timely manner. Higher detection latency can indicate a less resilient system, potentially leading to prolonged negative consequences.
-
-```python
-# From application_pages/utils.py
-def plot_attack_severity_vs_latency_plotly(attack_events_df):
-    if attack_events_df.empty:
-        st.warning("No attack events to plot for Attack Severity vs. Detection Latency.")
-        return
-
-    fig = px.scatter(attack_events_df, x='attack_severity', y='simulated_detection_latency',
-                     color='attack_type',
-                     title='Attack Severity vs. Simulated Detection Latency',
-                     labels={'attack_severity': 'Attack Severity',
-                             'simulated_detection_latency': 'Simulated Detection Latency (Minutes)'},
-                     hover_data=['attack_intensity', 'num_compromised_agents'],
-                     height=500,
-                     width=800)
-    
-    fig.update_layout(legend_title_text='Attack Type')
-    st.plotly_chart(fig, use_container_width=True)
-```
-
-#### 3. Aggregated Comparison: Agent Integrity Scores
-This bar chart directly compares the average integrity scores of compromised versus uncompromised agents. It effectively highlights the direct impact of the attack on the trustworthiness and operational health of affected AI agents.
-
-```python
-# From application_pages/utils.py
-def plot_agent_integrity_comparison_plotly(attacked_df):
-    # ... error handling ...
-    
-    integrity_comparison = attacked_df.groupby('is_compromised')['agent_integrity_score'].mean().reset_index()
-    integrity_comparison['Agent Status'] = integrity_comparison['is_compromised'].map({True: 'Compromised', False: 'Uncompromised'})
-
-    fig = px.bar(integrity_comparison, x='Agent Status', y='agent_integrity_score',
-                 title='Average Agent Integrity Scores: Compromised vs. Uncompromised',
-                 labels={'agent_integrity_score': 'Average Integrity Score'},
-                 color='Agent Status',
-                 height=500,
-                 width=800)
-    
-    fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
-    fig.update_layout(yaxis_range=[0, 1.1]) # Extend y-axis to show labels
-    st.plotly_chart(fig, use_container_width=True)
-```
-
-Observe these visualizations carefully. Try changing the attack parameters on "Page 2" and re-running the simulation on "Page 3" to see how different configurations alter the outcomes.
-
-### Discussion & Conclusion
-The final section of "Page 3" provides a summary and discussion of the key takeaways from the simulation. It reinforces the understanding of how AI security vulnerabilities impact agentic AI systems and the importance of proactive defense strategies.
-
-**Key takeaways from this lab:**
-*   **Impact of Attack Intensity**: Higher attack intensity generally leads to more pronounced effects across all metrics, emphasizing the need for robust defense mechanisms.
-*   **Vulnerability-Specific Effects**: Different attack types exhibit distinct patterns of impact, underscoring the importance of understanding the unique characteristics of each vulnerability.
-*   **Importance of Timely Detection**: The relationship between attack severity and detection latency highlights that delays in identifying and mitigating attacks can lead to amplified negative consequences.
-*   **Agent Integrity**: Compromised agents show a clear degradation in integrity, pointing to the necessity of agent-level security monitoring and recovery protocols.
-
-This lab provides a foundational understanding of AI security risks and the efficacy of simulated adversarial testing. By visualizing these impacts, we can better design, implement, and validate adaptive AI systems that are resilient against emerging threats.
-
-### References
-Finally, the page provides a list of references, including the theoretical basis for the lab and the libraries used.
-
-## Step 5: Summary and Next Steps
-Duration: 00:05
-Congratulations! You have successfully navigated through the QuLab AI Security Vulnerability Simulation.
-
-### What You've Learned
-*   **Fundamental Concepts**: Gained an understanding of critical AI security vulnerabilities such as prompt injection, data poisoning, synthetic-identity risk, and untraceable data leakage in the context of agentic AI systems.
-*   **Application Workflow**: Explored the modular structure of a Streamlit application, from data generation to parameter configuration and result visualization.
-*   **Mathematical Modeling**: Understood how mathematical formulas can be used to simulate the impact of attacks on key metrics like alert frequency, detection latency, and agent integrity.
-*   **Data Validation**: Learned the importance of data validation to ensure the integrity of simulation inputs.
-*   **Adversarial Analysis**: Interpreted interactive visualizations to analyze the effects of various attack types and intensities on system performance and security.
-*   **Practical Implications**: Derived practical insights into designing more secure and resilient AI systems by observing attack impacts.
-
-### Further Exploration
-Here are some ideas to continue your learning journey:
-
-*   **Modify Coefficients**: Experiment with changing the `C_TYPE_DICT`, `K_TYPE_DICT`, and `D_TYPE_DICT` values in `application_pages/utils.py` to see how different attack characteristics would alter the simulation results.
-*   **Add New Attack Types**: Extend the `simulate_vulnerability_impact` function and the coefficient dictionaries to introduce new hypothetical attack types.
-*   **Enhance Data Generation**: Modify `generate_synthetic_safety_data` to create more complex or realistic baseline scenarios.
-*   **Develop Mitigation Strategies**: Think about how you might incorporate simulated mitigation strategies (e.g., increased monitoring, agent isolation) into the `simulate_vulnerability_impact` function and visualize their effectiveness.
-*   **Explore Different Plot Types**: Use other Plotly visualizations to represent the data in new ways.
-
-<aside class="positive">
-Remember, the power of simulation lies in its ability to safely model and understand complex real-world phenomena. By continuing to experiment with this framework, you can deepen your understanding of AI security and contribute to building more robust AI systems.
+<aside class="negative">
+In the provided `visualization.py` code, placeholder `fake_` dataframes are used for plotting. In a complete application, these would be replaced with the actual `security_metrics_baseline`, `security_metrics_attacked`, and `attack_events` dataframes generated in the "Simulation" step, likely passed via `st.session_state` or a global object. For this codelab, we will explain the *intended purpose* of each plot.
 </aside>
 
-Thank you for participating in this QuLab codelab!
+### Plotting Functions
+
+The page defines three main plotting functions, each designed to highlight a different aspect of the simulation's impact.
+
+#### 1. `plot_alert_frequency_trend()`
+This function visualizes the trend of security alerts over time, comparing the baseline (uncompromised) state with the attacked state.
+
+*   **Purpose**: To clearly show how an AI security attack leads to an increase in security alerts or changes in their pattern. This helps in identifying anomaly detection post-attack.
+*   **Expected Output**: A line plot showing alert frequency (e.g., alerts per hour) on the y-axis against time on the x-axis, with two distinct lines for baseline and attacked scenarios.
+
+#### 2. `plot_attack_severity_vs_latency()`
+This plot explores the relationship between the severity of an attack event and the resulting system latency.
+
+*   **Purpose**: To illustrate that more severe attacks (e.g., higher data corruption or resource consumption) can lead to increased operational latency in AI agents or the overall system. This highlights performance degradation as a side effect of attacks.
+*   **Expected Output**: A scatter plot or regression plot showing attack severity on one axis and system latency (e.g., in milliseconds) on the other.
+
+#### 3. `plot_agent_integrity_comparison()`
+This function compares the integrity metrics of compromised agents versus uncompromised agents.
+
+*   **Purpose**: To directly show the impact of an attack on the trustworthiness or reliability of specific AI agents. This can include metrics like data integrity score, accuracy, or false positive rates.
+*   **Expected Output**: A bar chart or box plot comparing an integrity metric for two groups of agents: compromised and non-compromised.
+
+### Streamlit Integration
+
+The `main` function in `visualization.py` calls these plotting functions and renders them using Streamlit.
+
+```python
+# application_pages/visualization.py
+import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd # Added for fake data creation
+
+# Plotting function stubs (actual implementation omitted for brevity, but described above)
+def plot_alert_frequency_trend(base_df, attacked_df, attack_type, attack_intensity, font_size):
+    # ... plotting logic using base_df, attacked_df, attack_type, attack_intensity ...
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot([1,2,3], [5,6,7], label="Baseline") # Placeholder
+    ax.plot([1,2,3], [5,9,12], label="Attacked") # Placeholder
+    ax.set_title(f"Alert Frequency Trend ({attack_type} @ {attack_intensity})", fontsize=font_size)
+    ax.set_xlabel("Time (Hours)", fontsize=font_size-2)
+    ax.set_ylabel("Alert Frequency", fontsize=font_size-2)
+    ax.legend()
+    return fig
+
+def plot_attack_severity_vs_latency(attack_events_df, font_size):
+    # ... plotting logic using attack_events_df ...
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.scatter([0.1, 0.5, 0.9], [10, 50, 90]) # Placeholder
+    ax.set_title("Attack Severity vs. System Latency", fontsize=font_size)
+    ax.set_xlabel("Attack Severity Score", fontsize=font_size-2)
+    ax.set_ylabel("System Latency (ms)", fontsize=font_size-2)
+    return fig
+
+def plot_agent_integrity_comparison(attacked_df, num_compromised_agents, font_size):
+    # ... plotting logic using attacked_df, num_compromised_agents ...
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.bar(['Compromised', 'Uncompromised'], [0.4, 0.9]) # Placeholder
+    ax.set_title(f"Agent Integrity Comparison (N={num_compromised_agents} Compromised)", fontsize=font_size)
+    ax.set_ylabel("Agent Integrity Score", fontsize=font_size-2)
+    return fig
+
+
+def main():
+    st.markdown("## Visualization")
+    try:
+        # Prepare fake data for plotting (in a real app, these would come from st.session_state)
+        # Using placeholder data for demonstration as actual data generation logic is omitted in the snippet
+        fake_base_df = pd.DataFrame({'time': [1,2,3], 'alert_frequency': [5,6,7]})
+        fake_attacked_df = pd.DataFrame({'time': [1,2,3], 'alert_frequency': [5,9,12], 'agent_integrity': [0.4, 0.5, 0.6]})
+        fake_attack_events_df = pd.DataFrame({'severity_score': [0.1, 0.5, 0.9], 'latency_ms': [10, 50, 90]})
+
+        font_size = 14 # Define a font size for consistent plotting
+
+        st.subheader("Alert Frequency Trend")
+        fig_trend = plot_alert_frequency_trend(fake_base_df, fake_attacked_df, 'Prompt Injection', 0.5, font_size)
+        st.pyplot(fig_trend)
+        plt.close(fig_trend) # Important to close figures to prevent memory issues
+
+        st.subheader("Attack Severity vs. System Latency")
+        fig_rel = plot_attack_severity_vs_latency(fake_attack_events_df, font_size)
+        st.pyplot(fig_rel)
+        plt.close(fig_rel)
+
+        st.subheader("Agent Integrity Comparison")
+        fig_comp = plot_agent_integrity_comparison(fake_attacked_df, 1, font_size) # Assuming 1 compromised agent for this fake data
+        st.pyplot(fig_comp)
+        plt.close(fig_comp)
+
+    except Exception as e:
+        st.error(f"An error occurred during visualization: {e}")
+
+```
+*   `st.pyplot(fig)`: This is Streamlit's function to display a `matplotlib` figure.
+*   `plt.close(fig)`: It's a best practice to close `matplotlib` figures after displaying them with `st.pyplot` to free up memory, especially in long-running Streamlit applications.
+*   `st.subheader()`: Used to provide titles for individual plots, enhancing readability.
+
+This visualization step provides invaluable insights into the direct and indirect consequences of AI security vulnerabilities, allowing developers and analysts to grasp the magnitude and nature of the threats.
+
+## 6. Understanding the Application Entry Point (`app.py`)
+Duration: 00:03:00
+
+Finally, let's look at `app.py`, which is the main entry point for the entire Streamlit application. This file sets up the overall page configuration, displays the header, and manages the navigation between different application pages.
+
+```python
+# app.py
+import streamlit as st
+
+# Configure the Streamlit page
+st.set_page_config(page_title="AI Security Vulnerability Simulation Lab", layout="wide")
+
+# Display a logo and separator in the sidebar
+st.sidebar.image("https://www.quantuniversity.com/assets/img/logo5.jpg")
+st.sidebar.divider()
+
+# Main title for the application
+st.title("AI Security Vulnerability Simulation Lab")
+st.divider()
+
+# Sidebar navigation selectbox
+page = st.sidebar.selectbox(label="Navigation", options=["Introduction", "Setup", "Configuration", "Simulation", "Visualization"])
+
+# Conditional loading of pages based on selection
+if page == "Introduction":
+    from application_pages.introduction import main
+    main()
+elif page == "Setup":
+    from application_pages.setup import main
+    main()
+elif page == "Configuration":
+    from application_pages.configuration import main
+    main()
+elif page == "Simulation":
+    from application_pages.simulation import main
+    main()
+elif page == "Visualization":
+    from application_pages.visualization import main
+    main()
+```
+
+#### Key Components:
+*   **`st.set_page_config()`**: This function must be called as the very first Streamlit command. It configures global settings for your app, such as the page title (visible in the browser tab) and the layout (`"wide"` for more horizontal space).
+*   **`st.sidebar.image()` and `st.sidebar.divider()`**: These commands add an image and a visual separator to the Streamlit sidebar, enhancing the application's branding and aesthetics.
+*   **`st.title()` and `st.divider()`**: These create the main title for the application's content area and a horizontal divider for visual separation.
+*   **`st.sidebar.selectbox()`**: This is the core navigation mechanism. It creates a dropdown menu in the sidebar with a list of page options. The user's selection is stored in the `page` variable.
+*   **Conditional Page Loading**: The `if/elif` block checks the value of the `page` variable and dynamically imports and calls the `main()` function of the corresponding module from the `application_pages` directory. This pattern allows for a multi-page application structure within a single Streamlit script.
+
+This `app.py` effectively acts as the central router, ensuring that only the relevant page content is displayed to the user at any given time, providing a smooth and organized user experience for the AI Security Vulnerability Simulation Lab.
+
+Congratulations! You have now a comprehensive understanding of the AI Security Vulnerability Simulation Lab, its architecture, configuration, simulation logic, and visualization capabilities. This knowledge will enable you to effectively explore and analyze AI security threats in agentic systems.
+```
