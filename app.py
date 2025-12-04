@@ -1,1 +1,47 @@
-# Starter Python file
+import streamlit as st
+st.set_page_config(page_title="QuLab", layout="wide")
+st.sidebar.image("https://www.quantuniversity.com/assets/img/logo5.jpg")
+st.sidebar.divider()
+st.title("QuLab")
+st.divider()
+# Your code starts here
+st.markdown("""
+This lab provides a hands-on experience in AI Security.
+""")
+
+page = st.sidebar.selectbox(label="Navigation", options=["Overview", "Setup", "Configuration", "Mathematical Foundations", "Synthetic Data Generation", "Data Validation", "Vulnerability Simulation", "Visualizations", "Discussion", "Conclusion", "References"])
+
+if page == "Overview":
+    from application_pages.overview import main
+    main()
+elif page == "Setup":
+    from application_pages.setup import main
+    main()
+elif page == "Configuration":
+    from application_pages.configuration import main
+    main()
+elif page == "Mathematical Foundations":
+    from application_pages.mathematical_foundations import main
+    main()
+elif page == "Synthetic Data Generation":
+    from application_pages.synthetic_data import main
+    main()
+elif page == "Data Validation":
+    from application_pages.data_validation import main
+    main()
+elif page == "Vulnerability Simulation":
+    from application_pages.vulnerability_simulation import main
+    main()
+elif page == "Visualizations":
+    from application_pages.visualizations import main
+    main()
+elif page == "Discussion":
+    from application_pages.discussion import main
+    main()
+elif page == "Conclusion":
+    from application_pages.conclusion import main
+    main()
+elif page == "References":
+    from application_pages.references import main
+    main()
+# Your code ends here
